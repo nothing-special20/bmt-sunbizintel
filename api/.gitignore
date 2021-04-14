@@ -1,0 +1,9 @@
+# Ignore node modules
+node_modules
+
+/dist
+/files
+
+package-lock.json
+
+env.json

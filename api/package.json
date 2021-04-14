@@ -1,0 +1,63 @@
+{
+  "name": "api",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "./node_modules/nodemon/bin/nodemon.js app.js --exec 'npm run lint && node'",
+    "dev": "./node_modules/nodemon/bin/nodemon.js app.js --exec 'npm run lint && node'",
+    "prod": "NODE_ENV='production' node app.js",
+    "lint": "./node_modules/.bin/eslint '**/*.js'"
+  },
+  "dependencies": {
+    "@mysql/xdevapi": "8.0.23",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "~1.4.5",
+    "cors": "^2.8.5",
+    "debug": "^4.3.1",
+    "express": "^4.17.1",
+    "http-errors": "^1.8.0",
+    "json2csv": "^5.0.6",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.5.0",
+    "sqlstring": "^2.3.2",
+    "stripe": "^8.138.0",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.22.0",
+    "eslint-plugin-vue": "^7.7.0",
+    "nodemon": "^2.0.7"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "browser": true,
+      "es2020": true,
+      "node": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:vue/essential"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 11,
+      "sourceType": "module",
+      "max-len": [
+        2,
+        {
+          "code": 100,
+          "tabWidth": 4,
+          "ignoreUrls": true
+        }
+      ]
+    },
+    "plugins": [
+      "vue"
+    ],
+    "rules": {},
+    "overrides": []
+  }
+}
