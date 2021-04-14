@@ -6,11 +6,11 @@ echo "
 ------------------------------------------
 	Cloning Git Repo
 ------------------------------------------"
-cd /root/bmt-lg/api
+cd /root/bmt-sunbizintel/api
 npm install
 npm install pm2 -g
 
-cd /root/bmt-lg/app
+cd /root/bmt-sunbizintel/app
 npm install
 npm run build
 
@@ -20,7 +20,7 @@ echo "
 ------------------------------------------"
 sudo apt install -y nginx
 sudo rm /etc/nginx/sites-enabled/default
-sudo sh /root/bmt-lg/vm_scripts/create_site_file.sh
+sudo sh /root/bmt-sunbizintel/vm_scripts/create_site_file.sh
 
 sudo ln -s /etc/nginx/sites-available/bmt-db-front-end /etc/nginx/sites-enabled/bmt-db-front-end
 

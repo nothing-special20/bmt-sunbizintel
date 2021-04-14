@@ -1,11 +1,11 @@
-cd /root/bmt-lg
+cd /root/bmt-sunbizintel
 npm install
 
 echo "
 ---------------------------------------------------------
         Deploying APP & API
 ---------------------------------------------------------"
-cd /root/bmt-lg/app
+cd /root/bmt-sunbizintel/app
 npm install
 npm run build
 
@@ -24,7 +24,7 @@ sudo rm /etc/nginx/sites-enabled/default
 sudo rm /etc/nginx/sites-available/bmt-db-front-end
 sudo rm /etc/nginx/sites-enabled/bmt-db-front-end
 
-sudo sh /root/bmt-lg/vm_scripts/create_site_file.sh
+sudo sh /root/bmt-sunbizintel/vm_scripts/create_site_file.sh
 
 sudo ln -s /etc/nginx/sites-available/bmt-db-front-end /etc/nginx/sites-enabled/bmt-db-front-end
 
