@@ -18,34 +18,6 @@
             <div id="primary-menu-trigger">
               <svg class="svg-trigger" viewBox="0 0 100 100"><path d="m 30,33 h 40 c 3.722839,0 7.5,3.126468 7.5,8.578427 0,5.451959 -2.727029,8.421573 -7.5,8.421573 h -20"></path><path d="m 30,50 h 40"></path><path d="m 70,67 h -40 c 0,0 -7.5,-0.802118 -7.5,-8.365747 0,-7.563629 7.5,-8.634253 7.5,-8.634253 h 20"></path></svg>
             </div>
-
-            <!-- Primary Navigation
-            ============================================= -->
-            <nav class="primary-menu">
-
-              <ul class="one-page-menu menu-container" data-easing="easeInOutExpo" data-speed="1250" data-offset="65">
-                <li class="menu-item">
-                  <a href="#" class="menu-link" data-href="#"><div>Home</div></a>
-                </li>
-                <li class="menu-item">
-                  <a href="#great-for" class="menu-link" data-href="#"><div>Who's It For?</div></a>
-                </li>
-                <li class="menu-item">
-                  <a href="#whats-available" class="menu-link" data-href="#"><div>What's Avilable?</div></a>
-                </li>
-                <li class="menu-item">
-                  <a href="#" class="menu-link" data-href="#"><div>Services</div></a>
-                </li>
-                <li class="menu-item">
-                  <a href="#pricing" class="menu-link" data-href="#"><div>Pricing</div></a>
-                </li>
-                <li class="menu-item">
-                  <a href="#free-sample" class="menu-link" data-href="#"><div>Free Sample</div></a>
-                </li>
-              </ul>
-
-            </nav><!-- #primary-menu end -->
-
           </div>
         </div>
       </div>
@@ -61,10 +33,9 @@
           <div class="container py-5">
             <div class="py_vue_remap_class_4">
               <div class="heading-block border-bottom-0">
-                <h1 class="py_vue_remap_class_3 nott font-body">Download Business Leads from the Full Dataset of PPP Loan Applicants.</h1>
-                <span class="font-weight-light nott ls1 topmargin-sm py_vue_remap_class_6">Find thousands of your target customers by industry, state, business size, and more.</span>
+                <h1 class="py_vue_remap_class_3 nott font-body">Get the data that you need to run your business better.</h1>
               </div>
-              <a href="http://ppploandata.io/file/requests" class="button button-green button-3d m-0">Use the Data Now!</a>
+              <a href="http://ppploandata.io/feedback" class="button button-green button-3d m-0">Ask for Data!</a>
             </div>
           </div>
         </div>

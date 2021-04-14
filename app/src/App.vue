@@ -7,9 +7,6 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item" v-if="isLoggedIn">
-            <router-link to="/file/requests">File Requests</router-link>
-          </li>
           <li class="nav-item">
             <router-link to="/feedback">User Questions</router-link>
           </li>
