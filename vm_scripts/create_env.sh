@@ -61,3 +61,4 @@ echo "
 sudo snap install core; sudo snap refresh core
 sudo snap install --classic certbot
 sudo ln -s /snap/bin/certbot /usr/bin/certbot
+certbot certonly --standalone -d sunshineanalytics.io --staple-ocsp -m help@billmoretech.com --agree-tos
