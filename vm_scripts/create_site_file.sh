@@ -9,8 +9,8 @@ server {
     listen      443 ssl default_server;
     server_name _;
 
-    ssl_certificate /etc/letsencrypt/live/ppploandata.io/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/ppploandata.io/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/sunshineanalytics.io/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/sunshineanalytics.io/privkey.pem;
 
     location / {
         root /opt/app/dist;

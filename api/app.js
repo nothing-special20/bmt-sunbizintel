@@ -16,8 +16,8 @@ app.use(bodyParser.json());
 
 // Set up cors
 const whitelist = ["http://localhost:8080", "https://localhost:8080",
-                    "ppploandata.io", "http://ppploandata.io", "https://ppploandata.io", "www.ppploandata.io",  "http://www.ppploandata.io", "https://www.ppploandata.io",
-                    "208.87.128.30", "http://208.87.128.30", "https://208.87.128.30"];
+                    "sunshineanalytics.io", "http://sunshineanalytics.io", "https://sunshineanalytics.io", "www.sunshineanalytics.io",  "http://www.sunshineanalytics.io", "https://www.sunshineanalytics.io",
+                    "208.87.133.239", "http://208.87.133.239", "https://208.87.133.239"];
 const corsOptions = {
   origin: function(origin, callback) {
     if (!origin || whitelist.indexOf(origin) !== -1) {

@@ -84,8 +84,8 @@ export default {
       btnLocked: false,
       sessionId: "",
       pubKey: "",
-      successURL: "http://ppploandata.io/checkout/success?id={CHECKOUT_SESSION_ID}",
-      cancelURL: "http://ppploandata.io/checkout"
+      successURL: "http://sunshineanalytics.io/checkout/success?id={CHECKOUT_SESSION_ID}",
+      cancelURL: "http://sunshineanalytics.io/checkout"
     };
   },
   methods: {

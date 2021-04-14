@@ -7,16 +7,16 @@ sudo cp -r * /opt/app/dist/
 sudo sh -c "echo '
 server {
     listen 80;
-    server_name ppploandata.io;
+    server_name sunshineanalytics.io;
     return 301 https://\$host\$request_uri;
 }
 
 server {
     listen      443 ssl default_server;
-    server_name ppploandata.io;
+    server_name sunshineanalytics.io;
 
-    ssl_certificate /etc/letsencrypt/live/ppploandata.io/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/ppploandata.io/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/sunshineanalytics.io/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/sunshineanalytics.io/privkey.pem;
 
     location / {
         root /opt/app/dist;
