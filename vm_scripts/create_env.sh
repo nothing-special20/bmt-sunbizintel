@@ -13,6 +13,7 @@ npm install pm2 -g
 cd /root/bmt-sunbizintel/app
 npm install
 npm run build
+npm install eslint-plugin-standard
 
 echo "
 ------------------------------------------
