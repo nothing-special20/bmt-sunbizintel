@@ -1,31 +1,35 @@
 <template>
   <div id="user-questions">
     <div v-if="!submitted" class="container">
-      <h4>Give Us Your Feedback</h4>
+      <h4>Request a Referral</h4>
       <div id="feedback-display-error">{{ msg }}</div>
       <div class="form-group">
-        <label for="job-item">What is your profession / job / title?</label>
-        <input id="job-item" class="form-control" type="text" v-model="job"/>
+        <label for="bniMbrName-item">What is your name?</label>
+        <input id="bniMbrName-item" class="form-control" type="text" v-model="bniMbrName"/>
       </div>
       <div class="form-group">
-        <label for="industry-item">What industry are you in?</label>
-        <input id="industry-item" class="form-control" type="text" v-model="industry"/>
+        <label for="bniMbrEmail-item">What is your email?</label>
+        <input id="bniMbrEmail-item" class="form-control" type="text" v-model="bniMbrEmail"/>
       </div>
       <div class="form-group">
-        <label for="change-item">What would you change about our tool?</label>
-        <input id="change-item" class="form-control" type="text" v-model="change"/>
+        <label for="bniChapter-item">What BNI chapter are you in?</label>
+        <input id="bniChapter-item" class="form-control" type="text" v-model="bniChapter"/>
       </div>
       <div class="form-group">
-        <label for="add-item">What would you add to our tool?</label>
-        <input id="add-item" class="form-control" type="text" v-model="add"/>
+        <label for="refName-item">What is the name of the person who you want to meet?</label>
+        <input id="refName-item" class="form-control" type="text" v-model="refName"/>
       </div>
       <div class="form-group">
-        <label for="other-item">What other comments do you have for us?</label>
-        <input id="other-item" class="form-control" type="text" v-model="other"/>
+        <label for="refCompany-item">What company do they work for?</label>
+        <input id="refCompany-item" class="form-control" type="text" v-model="refCompany"/>
       </div>
       <div class="form-group">
-        <label for="email-item">What is your email? (optional)</label>
-        <input id="email-item" class="form-control" type="text" v-mode="email"/>
+        <label for="refJob-item">What is their job title?</label>
+        <input id="refJob-item" class="form-control" type="text" v-model="refJob"/>
+      </div>
+      <div class="form-group">
+        <label for="message-item">What message should someone from BNI send to them to introduce you?</label>
+        <input id="message-item" class="form-control" type="text" v-mode="message"/>
       </div>
       <button class="btn btn-primary" v-on:click="submit()">Submit</button>
     </div>
@@ -46,17 +50,18 @@ export default {
     return {
       msg: "",
       submitted: false,
-      job: "",
-      industry: "",
-      change: "",
-      add: "",
-      other: "",
-      email: ""
+      bniMbrName: "",
+      bniMbrEmail: "",
+      bniChapter: "",
+      refName: "",
+      refCompany: "",
+      refJob: "",
+      message: ""
     };
   },
   methods: {
     submit () {
-      ApiService.sendUserFeedback(this.job, this.industry, this.change, this.add, this.other, this.email).then(() => {
+      ApiService.sendUserFeedback(this.bniMbrName, this.bniMbrEmail, this.bniChapter, this.refName, this.refCompany, this.refJob, this.message).then(() => {
         this.submitted = true;
       }).catch(err => {
         this.msg = err.response.data.msg;

@@ -134,14 +134,15 @@ export default {
   /**
    * HTTP Call to send user feedback
    */
-  sendUserFeedback (job, industry, change, addition, other, email) {
+  sendUserFeedback (bniMbrName, bniMbrEmail, bniChapter, refName, refCompany, refJob, message) {
     return service.post("/feedback", {
-      job: job,
-      industry: industry,
-      change: change,
-      addition: addition,
-      other: other,
-      email: email
+      bniMbrName: bniMbrName,
+      bniMbrEmail: bniMbrEmail,
+      bniChapter: bniChapter,
+      refName: refName,
+      refCompany: refCompany,
+      refJob: refJob,
+      message: message
     }).then(response => response.data);
   },
   /**
