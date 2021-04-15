@@ -29,7 +29,7 @@
       </div>
       <div class="form-group">
         <label for="message-item">What message should someone from BNI send to them to introduce you?</label>
-        <input id="message-item" class="form-control" type="text" v-model="message"/>
+        <input id="message-item" class="form-control" type="text" v-mode="message"/>
       </div>
       <button class="btn btn-primary" v-on:click="submit()">Submit</button>
     </div>
