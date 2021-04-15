@@ -8,7 +8,8 @@ import CheckoutOverview from "../views/checkout/Overview.vue";
 import CheckoutSummary from "../views/checkout/Summary.vue";
 import Subscription from "@/views/Subscription.vue";
 import FileRequests from "@/views/FileRequests.vue";
-import UserQuestions from "@/views/UserQuestions.vue";
+import UserQuestions from "@/views/UserQuestions.vue"
+import DaaSResearch from "@/views/DaaSResearch.vue";
 import FileRequestHistory from "@/views/FileRequestHistory";
 import Test from "../views/Test.vue";
 import LoginView from "@/views/auth/LoginView.vue";
@@ -111,6 +112,11 @@ const routes = [
     path: "/feedback",
     name: "UserQuestions",
     component: UserQuestions
+  },
+  {
+    path: "/daasresearch",
+    name: "DaaSResearch",
+    component: DaaSResearch
   },
   {
     path: "/file/requests/history",

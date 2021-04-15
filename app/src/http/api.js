@@ -146,6 +146,24 @@ export default {
     }).then(response => response.data);
   },
   /**
+   * HTTP Call to send user feedback
+   */
+  sendDaaSResearch (name, job, industry, business, dataDesc, dataUse, dataLink, dataValue, other, currServices, email) {
+    return service.post("/daasresearch", {
+      name: name,
+      job: job,
+      industry: industry,
+      business: business,
+      dataDesc: dataDesc,
+      dataUse: dataUse,
+      dataLink: dataLink,
+      dataValue: dataValue,
+      other: other,
+      currServices: currServices,
+      email: email
+    }).then(response => response.data);
+  },
+  /**
    * Get axios instance
    */
   getInstance () {

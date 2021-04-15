@@ -10,6 +10,9 @@
           <li class="nav-item">
             <router-link to="/feedback">Referral Requests</router-link>
           </li>
+          <li class="nav-item">
+            <router-link to="/daasresearch">Want Specific Data?</router-link>
+          </li>
         </ul>
         <div class="collapse navbar-collapse">
           <ul class="navbar-nav ml-auto">

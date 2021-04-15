@@ -2,6 +2,7 @@ var express = require("express");
 
 const tempController = require("../controllers/temp");
 const feedbackController = require("../controllers/feedback");
+const daasResearchController = require("../controllers/daasresearch");
 
 const authRoutes = require("./auth");
 const subscriptionRoutes = require("./subscription");
@@ -28,6 +29,19 @@ router.use(checkoutRoutes);
  router.post("/feedback", (req, res) => {
   console.log("Received feedback.", req.body);
   feedbackController.insertFeedback(req.body).then(() => {
+    res.status(200).send("OK");
+  }).catch(err => {
+    console.log(`Unable to add user feedback.`, err);
+    res.status(500).send({ msg: "Unable to add user feedback." });
+  });
+});
+
+/**
+ * DaaS Research route
+ */
+ router.post("/daasresearch", (req, res) => {
+  console.log("Received feedback.", req.body);
+  daasResearchController.insertDaaSResearch(req.body).then(() => {
     res.status(200).send("OK");
   }).catch(err => {
     console.log(`Unable to add user feedback.`, err);
