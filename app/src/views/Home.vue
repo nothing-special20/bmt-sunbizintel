@@ -11,10 +11,6 @@
 
             <!-- Logo
             ============================================= -->
-            <div id="logo">
-              <span class="menu-link">PPP Loan Data</span>
-            </div><!-- #logo end -->
-
             <div id="primary-menu-trigger">
               <svg class="svg-trigger" viewBox="0 0 100 100"><path d="m 30,33 h 40 c 3.722839,0 7.5,3.126468 7.5,8.578427 0,5.451959 -2.727029,8.421573 -7.5,8.421573 h -20"></path><path d="m 30,50 h 40"></path><path d="m 70,67 h -40 c 0,0 -7.5,-0.802118 -7.5,-8.365747 0,-7.563629 7.5,-8.634253 7.5,-8.634253 h 20"></path></svg>
             </div>
@@ -35,7 +31,7 @@
               <div class="heading-block border-bottom-0">
                 <h1 class="py_vue_remap_class_3 nott font-body">Get the data that you need to run your business better.</h1>
               </div>
-              <a href="http://ppploandata.io/feedback" class="button button-green button-3d m-0">Ask for Data!</a>
+              <a href="http://sunshineanalytics.io/daasresearch" class="button button-green button-3d m-0">Ask for Data!</a>
             </div>
           </div>
         </div>
