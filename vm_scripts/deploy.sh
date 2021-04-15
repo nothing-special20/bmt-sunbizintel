@@ -1,5 +1,6 @@
 cd /root/bmt-sunbizintel
 npm install
+npm install eslint-plugin-standard
 
 echo "
 ---------------------------------------------------------
