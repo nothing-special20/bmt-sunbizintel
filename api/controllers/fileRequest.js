@@ -58,7 +58,7 @@ function buildQuery(tableName, {naics, state, zip, date, jobsReported , amount})
 }
 
 /**
- * Get records from PPP LOANS table given list of Loan Numbers
+ * Get records from Sunshine Analytics table given list of Loan Numbers
  *
  * @param loanNumberArray
  * @param mapRecord - Record object map for PPP LOAN data
