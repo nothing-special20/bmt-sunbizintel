@@ -5,67 +5,70 @@ const { getTableName: getTableNameForCSV } = require("../database/csvModels");
 const { TABLE, MODEL, RECORD_MAP } = require("../database/tables");
 const { convertDataToCSV } = require("./csvExporter");
 
-// TODO: PPP_LOANS is hardcoded, change method if using various datasets
+// TODO: HILLSBOROUGH_CLERK_CIVIL is hardcoded, change method if using various datasets
 
 /**
  * Loan Number record map for PPP LOAN SEARCH Table
  */
-var loanNumberMap = function createMap(row) {
+var CaseNumberMap = function createMap(row) {
   return {
-    LoanNumber: row[0]
+    CaseNumber: row[0]
   }
 };
 
 /**
  * Build query from filters
  */
-function buildQuery(tableName, {naics, state, zip, date, jobsReported , amount}) {
-  var loanDate = date;
-  var jobs = jobsReported; // JSON.parse(jobsReported);
-  var loanAmount = amount; //JSON.parse(amount);
+function buildFLClerkQuery(tableName, {county, case_type, case_number, case_title, party_name, attorney_name, party_type, date, party_address}) {
+  var filingDate = date;
 
   // Build query
-  var dbQuery = `SELECT LOAN_NUMBER from ${tableName} WHERE 1=1 `;
+  var dbQuery = `SELECT CASE_NUMBER from ${tableName} WHERE 1=1 `;
 
-  if(naics != "") {
-      dbQuery += " AND NAICS_CODE = " + sqlstring.escape(naics);
+  if(county != "All Counties") {
+      dbQuery += " AND COUNTY = " + sqlstring.escape(county);
   }
-  if (state != "") {
-      dbQuery += " AND STATE = " + sqlstring.escape(state);
+  /**
+  if (case_type != "All Case Types") {
+      dbQuery += " AND CASE_TYPE = " + sqlstring.escape(case_type);
   }
-  if (zip != "") {
-      dbQuery += ` AND ZIP like ${sqlstring.escape("%" + zip + "%")}`;
+  if (case_number != "") {
+      dbQuery += ` AND CASE_NUMBER like ${sqlstring.escape("%" + case_number + "%")}`;
   }
-  if (loanDate.from !== "") {
-    dbQuery += " AND DATE(LOAN_DATE) >= " + sqlstring.escape(loanDate.from);
+  if (case_title != "") {
+      dbQuery += ` AND TITLE like ${sqlstring.escape("%" + case_title + "%")}`;
   }
-  if (loanDate.to !== "") {
-    dbQuery += " AND DATE(LOAN_DATE) <= " + sqlstring.escape(loanDate.to);
+  if (party_name != "") {
+      dbQuery += ` AND PARTY_FULL_NAME like ${sqlstring.escape("%" + party_name + "%")}`;
   }
-  if (jobs.min != "") {
-      dbQuery += " AND JOBS >= " + sqlstring.escape(jobs.min);
+  if (attorney_name != "") {
+      dbQuery += ` AND ATTORNEY like ${sqlstring.escape("%" + attorney_name + "%")}`;
   }
-  if (jobs.max != "") {
-      dbQuery += " AND JOBS <= " + sqlstring.escape(jobs.max);
+  if (party_type != "All Party Types") {
+      dbQuery += ` AND ATTORNEY like ${sqlstring.escape("%" + party_type + "%")}`;
   }
-  if (loanAmount.min !== "") {
-    dbQuery += " AND LOAN_AMOUNT >= " + sqlstring.escape(loanAmount.min);
+  if (filingDate.from !== "") {
+    dbQuery += " AND DATE(FILING_DATE) >= " + sqlstring.escape(filingDate.from);
   }
-  if (loanAmount.max !== "") {
-    dbQuery += " AND LOAN_AMOUNT <= " + sqlstring.escape(loanAmount.max);
+  if (filingDate.to !== "") {
+    dbQuery += " AND DATE(FILING_DATE) <= " + sqlstring.escape(filingDate.to);
   }
+  if(case_number != "") {
+      dbQuery += " AND COUNTY = " + sqlstring.escape(county);
+  }
+  */
   return dbQuery;
 }
 
 /**
  * Get records from Sunshine Analytics table given list of Loan Numbers
  *
- * @param loanNumberArray
+ * @param CaseNumberArray
  * @param mapRecord - Record object map for PPP LOAN data
  * @returns List of Records
  */
-function getRecords(loanNumberArray, mapRecord) {
-  var query = `SELECT * from ${TABLE.PPP_LOANS} where LoanNumber in (${sqlstring.escape(loanNumberArray)})`;
+function getRecords(CaseNumberArray, mapRecord) {
+  var query = `SELECT * from ${TABLE.HILLSBOROUGH_CLERK_CIVIL} where CASE_NUMBER in (${sqlstring.escape(CaseNumberArray)})`;
   return new Promise((resolve, reject) => {
     client.querySelect(query, mapRecord).then(result => {
       resolve(result);
@@ -85,7 +88,7 @@ function getSearchRecords(filters, mapRecord) {
   // Get Table Name and map
 
   // Build query
-  var query = buildQuery(TABLE.PPP_LOANS_SEARCH, filters);
+  var query = buildFLClerkQuery(TABLE.HILLSBOROUGH_CLERK_CIVIL, filters);
   return new Promise((resolve, reject) => {
     client.querySelect(query, mapRecord).then(result => {
       resolve(result);
@@ -123,10 +126,10 @@ function addRequestToUserHistory(fileId, filters, userId, count) {
     client.getSchema().then(schema => {
       var table = schema.getTable(TABLE.FILE_REQUEST_HISTORY);
       // Insert values
-      table.insert(MODEL.FILE_REQUEST_HISTORY).values(fileId, userId, getDate(), count, "PPP_LOANS", JSON.stringify(filters)).execute().then(() => {
+      table.insert(MODEL.FILE_REQUEST_HISTORY).values(fileId, userId, getDate(), count, "HILLSBOROUGH_CLERK_CIVIL", JSON.stringify(filters)).execute().then(() => {
         resolve();
       }).catch(err => {
-        reject({ 
+        reject({
           msg: `Could not add file to request history in database for user ${userId} and parameters: ${filters}.`,
           err: err
         });
@@ -167,21 +170,21 @@ function getHistory(userId) {
 function getRecordsAsCSV(filters) {
   return new Promise((resolve, reject) => {
     // Get loan IDs from search table
-    getSearchRecords(filters, loanNumberMap).then(entries => {
+    getSearchRecords(filters, CaseNumberMap).then(entries => {
       // Create array of loan numbers
       var loanIDs = [];
       for (var i = 0; i < entries.length; i++) {
-        loanIDs.push(entries[i].LoanNumber);
+        loanIDs.push(entries[i].CaseNumber);
       }
 
       // Get PPP_LOAN table record map for CSV export
-      var { mapRecord } = getTableNameForCSV(TABLE.PPP_LOANS);
+      var { mapRecord } = getTableNameForCSV(TABLE.HILLSBOROUGH_CLERK_CIVIL);
 
       // Get loan data
       getRecords(loanIDs, mapRecord).then(records => {
         resolve({
           size: loanIDs.length,
-          csv: convertDataToCSV(TABLE.PPP_LOANS, records)
+          csv: convertDataToCSV(TABLE.HILLSBOROUGH_CLERK_CIVIL, records)
         });
       }).catch(err => { reject(err) });
     }).catch(err => { reject(err) });
@@ -197,7 +200,7 @@ async function getFileData(httpQuery, res) {
   const filters = JSON.parse(httpQuery.filters);
 
   // Get record count
-  getNumberOfRecords(filters, loanNumberMap).then((numEntries) => {
+  getNumberOfRecords(filters, CaseNumberMap).then((numEntries) => {
     console.log("Result:", numEntries);
     var price = 0;
 
@@ -222,17 +225,17 @@ exports.getFileData = getFileData;
 async function getSampleFile(res) {
 
   try {
-    var { mapRecord } = getTableNameForCSV(TABLE.PPP_LOANS);
-    var query = `SELECT * from ${TABLE.PPP_LOANS} LIMIT 10`;
+    var { mapRecord } = getTableNameForCSV(TABLE.HILLSBOROUGH_CLERK_CIVIL);
+    var query = `SELECT * from ${TABLE.HILLSBOROUGH_CLERK_CIVIL} LIMIT 10`;
 
     var entries = await client.querySelect(query, mapRecord);
 
     // Build CSV
-    var csv = convertDataToCSV(TABLE.PPP_LOANS, entries);
+    var csv = convertDataToCSV(TABLE.HILLSBOROUGH_CLERK_CIVIL, entries);
 
     // Set response header to indicate CSV file
     res.setHeader("Content-Type", "text/csv");
-    res.setHeader("Content-Disposition", `attachment; filename=${TABLE.PPP_LOANS}.csv`);
+    res.setHeader("Content-Disposition", `attachment; filename=${TABLE.HILLSBOROUGH_CLERK_CIVIL}.csv`);
     return res.status(200).send(csv);
 
   } catch (err) {
@@ -287,7 +290,7 @@ async function getFileForDownload(httpQuery, res) {
 
     // Set response header to indicate CSV file
     res.setHeader("Content-Type", "text/csv");
-    res.setHeader("Content-Disposition", `attachment; filename=${TABLE.PPP_LOANS}.csv`);
+    res.setHeader("Content-Disposition", `attachment; filename=${TABLE.HILLSBOROUGH_CLERK_CIVIL}.csv`);
     return res.status(200).send(csv);
 
   } catch (err) {
