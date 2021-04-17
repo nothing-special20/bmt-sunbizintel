@@ -108,16 +108,4 @@ CREATE TABLE DAAS_RESEARCH (
 	EMAIL VARCHAR(125)
 );
 
-job: "",
-industry: "",
-business: "",
-dataDesc: "",
-dataUse: "",
-dataLink: "",
-dataValue: "",
-other: "",
-currServices: "",
-email: ""
-
-
 COMMIT;
