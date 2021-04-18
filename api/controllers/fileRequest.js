@@ -72,7 +72,7 @@ function getRecords(caseNumberArray, mapRecord) {
     client.querySelect(query, mapRecord).then(result => {
       resolve(result);
     }).catch(err => {
-      reject("Error getting records." + `${sqlstring.escape(caseNumberArray)}`, err);
+      reject("Error getting records.", err);
     });
   });
 }
