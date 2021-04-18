@@ -12,7 +12,7 @@ const { convertDataToCSV } = require("./csvExporter");
  */
 var caseNumberMap = function createMap(row) {
   return {
-    caseNumber: row[0]
+    CaseNumber: row[2]
   }
 };
 
@@ -171,18 +171,18 @@ function getRecordsAsCSV(filters) {
     // Get loan IDs from search table
     getSearchRecords(filters, caseNumberMap).then(entries => {
       // Create array of loan numbers
-      var loanIDs = [];
+      var caseNums = [];
       for (var i = 0; i < entries.length; i++) {
-        loanIDs.push(entries[i].caseNumber);
+        caseNums.push(entries[i].CaseNumber);
       }
 
       // Get PPP_LOAN table record map for CSV export
       var { mapRecord } = getTableNameForCSV(TABLE.HILLSBOROUGH_CLERK_CIVIL);
 
       // Get loan data
-      getRecords(loanIDs, mapRecord).then(records => {
+      getRecords(caseNums, mapRecord).then(records => {
         resolve({
-          size: loanIDs.length,
+          size: caseNums.length,
           csv: convertDataToCSV(TABLE.HILLSBOROUGH_CLERK_CIVIL, records)
         });
       }).catch(err => { reject(err) });
