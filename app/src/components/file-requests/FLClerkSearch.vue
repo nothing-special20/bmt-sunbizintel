@@ -7,7 +7,7 @@
         <div class="col-sm-6">
           <div class="form-group">
             <label for="county-search-item">County:</label>
-            <select id="county-search-item" class="form-control" aria-label="County" v-model="county">
+            <select id="county-search-item" class="form-control" aria-label="County" v-model="filters.county">
               <option value="All Counties">All Counties</option>
               <option value="Hillsborough">Hillsborough</option>
             </select>
@@ -16,7 +16,7 @@
         <div class="col-sm-6">
           <div class="form-group">
             <label for="case-type-search-item">Case Type:</label>
-            <select id="case-type-search-item" class="form-control" aria-label="Case Type" v-model="case_type">
+            <select id="case-type-search-item" class="form-control" aria-label="Case Type" v-model="filters.case_type">
               <option value="All Case Types">All Case Types</option>
               <option value="(DOR) Administrative Support Order">(DOR) Administrative Support Order</option>
               <option value="(DOR) Dependent Support Enforcement">(DOR) Dependent Support Enforcement</option>
@@ -212,28 +212,28 @@
       <!-- Job Search Boxes -->
       <div class="form-group">
         <label for="case-number-search-item">Case Number:</label>
-        <input id="case-number-search-item" class="form-control" type="text" v-model="case_number" />
+        <input id="case-number-search-item" class="form-control" type="text" v-model="filters.case_number" />
       </div>
       <!-- Case Title -->
       <div class="form-group">
         <label for="case-title-search-item">Case Title:</label>
-        <input id="case-title-search-item" class="form-control" type="text" v-model="case_title" />
+        <input id="case-title-search-item" class="form-control" type="text" v-model="filters.case_title" />
       </div>
       <!-- Party Name -->
       <div class="form-group">
         <label for="party-name-search-item">Party Name:</label>
-        <input id="party-name-search-item" class="form-control" type="text" v-model="party_name" />
+        <input id="party-name-search-item" class="form-control" type="text" v-model="filters.party_name" />
       </div>
       <!-- Attorney Name -->
       <div class="form-group">
         <label for="attorney-name-search-item">Attorney Name:</label>
-        <input id="attorney-name-search-item" class="form-control" type="text" v-model="attorney_name" />
+        <input id="attorney-name-search-item" class="form-control" type="text" v-model="filters.attorney_name" />
       </div>
       <!-- Party Types -->
       <div class="form-group">
         <label for="party-type-search-item">Party Type:</label>
-        <select id="party-type-search-item" class="form-control" aria-label="Party Type" v-model="party_type">
-          <option value="">All Party Types</option>
+        <select id="party-type-search-item" class="form-control" aria-label="Party Type" v-model="filters.party_type">
+          <option value="All Party Types">All Party Types</option>
           <option value="Plaintiff">Plaintiff</option>
           <option value="Defendant">Defendant</option>
           <option value="Petitioner">Petitioner</option>
@@ -294,7 +294,7 @@
       <!-- Amount Search Boxes -->
       <div class="form-group">
         <label for="party-addr-search-item">Party Address:</label>
-        <input id="party-addr-search-item" class="form-control" type="text" v-model="party_address" />
+        <input id="party-addr-search-item" class="form-control" type="text" v-model="filters.party_address" />
       </div>
       <button class="btn btn-primary" v-on:click="onSearchClick">Submit</button>
     </div>

@@ -10,9 +10,9 @@ const { convertDataToCSV } = require("./csvExporter");
 /**
  * Loan Number record map for PPP LOAN SEARCH Table
  */
-var CaseNumberMap = function createMap(row) {
+var caseNumberMap = function createMap(row) {
   return {
-    CaseNumber: row[0]
+    caseNumber: row[0]
   }
 };
 
@@ -45,7 +45,7 @@ function buildFLClerkQuery(tableName, {county, case_type, case_number, case_titl
       dbQuery += ` AND ATTORNEY like ${sqlstring.escape("%" + attorney_name + "%")}`;
   }
   if (party_type != "All Party Types") {
-      dbQuery += ` AND ATTORNEY like ${sqlstring.escape("%" + party_type + "%")}`;
+      dbQuery += ` AND PARTY_TYPES like ${sqlstring.escape("%" + party_type + "%")}`;
   }
   if (filingDate.from !== "") {
     dbQuery += " AND DATE(FILING_DATE) >= " + sqlstring.escape(filingDate.from);
@@ -63,12 +63,12 @@ function buildFLClerkQuery(tableName, {county, case_type, case_number, case_titl
 /**
  * Get records from Sunshine Analytics table given list of Loan Numbers
  *
- * @param CaseNumberArray
+ * @param caseNumberArray
  * @param mapRecord - Record object map for PPP LOAN data
  * @returns List of Records
  */
-function getRecords(CaseNumberArray, mapRecord) {
-  var query = `SELECT * from ${TABLE.HILLSBOROUGH_CLERK_CIVIL} where CASE_NUMBER in (${sqlstring.escape(CaseNumberArray)})`;
+function getRecords(caseNumberArray, mapRecord) {
+  var query = `SELECT * from ${TABLE.HILLSBOROUGH_CLERK_CIVIL} where CASE_NUMBER in (${sqlstring.escape(caseNumberArray)})`;
   return new Promise((resolve, reject) => {
     client.querySelect(query, mapRecord).then(result => {
       resolve(result);
@@ -170,11 +170,11 @@ function getHistory(userId) {
 function getRecordsAsCSV(filters) {
   return new Promise((resolve, reject) => {
     // Get loan IDs from search table
-    getSearchRecords(filters, CaseNumberMap).then(entries => {
+    getSearchRecords(filters, caseNumberMap).then(entries => {
       // Create array of loan numbers
       var loanIDs = [];
       for (var i = 0; i < entries.length; i++) {
-        loanIDs.push(entries[i].CaseNumber);
+        loanIDs.push(entries[i].caseNumber);
       }
 
       // Get PPP_LOAN table record map for CSV export
@@ -200,7 +200,7 @@ async function getFileData(httpQuery, res) {
   const filters = JSON.parse(httpQuery.filters);
 
   // Get record count
-  getNumberOfRecords(filters, CaseNumberMap).then((numEntries) => {
+  getNumberOfRecords(filters, caseNumberMap).then((numEntries) => {
     console.log("Result:", numEntries);
     var price = 0;
 
