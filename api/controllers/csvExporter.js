@@ -18,7 +18,7 @@ function getRecords(type, county) {
       var table = schema.getTable(tableName);
 
       var results = [];
-      table.select(getModel(type)).where("BORROWERSTATE = :param").bind("param", county).execute(row => {
+      table.select(getModel(type)).where("COUNTY = :param").bind("param", county).execute(row => {
         // Create object map for row
         results.push(mapRecord(row));
       }).then(() => {
