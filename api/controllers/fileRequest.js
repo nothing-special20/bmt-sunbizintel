@@ -173,6 +173,8 @@ function getRecordsAsCSV(filters) {
     getSearchRecords(filters, caseNumberMap).then(entries => {
       // Create array of loan numbers
       var caseNums = [];
+      console.log('test' + entries.length)
+      console.log('test' + entries)
       for (var i = 0; i < entries.length; i++) {
         console.log(`case_num_test:` + entries[i].CaseNumber)
         caseNums.push(entries[i].CaseNumber);
@@ -182,8 +184,6 @@ function getRecordsAsCSV(filters) {
 
       // Get PPP_LOAN table record map for CSV export
       var { mapRecord } = getTableNameForCSV(TABLE.HILLSBOROUGH_CLERK_CIVIL);
-
-      console.log('test' + mapRecord)
 
       // Get loan data
       getRecords(caseNums, mapRecord).then(records => {
