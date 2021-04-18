@@ -68,7 +68,6 @@ function buildFLClerkQuery(tableName, {county, case_type, case_number, case_titl
  */
 function getRecords(caseNumberArray, mapRecord) {
   var query = `SELECT * from ${TABLE.HILLSBOROUGH_CLERK_CIVIL} where CASE_NUMBER in (${sqlstring.escape(caseNumberArray)})`;
-  console.log(`${sqlstring.escape(caseNumberArray)}`)
   return new Promise((resolve, reject) => {
     client.querySelect(query, mapRecord).then(result => {
       resolve(result);
@@ -174,8 +173,11 @@ function getRecordsAsCSV(filters) {
       // Create array of loan numbers
       var caseNums = [];
       for (var i = 0; i < entries.length; i++) {
+        console.log(`case_num_test:` + entries[i].CaseNumber)
         caseNums.push(entries[i].CaseNumber);
       }
+
+
 
       // Get PPP_LOAN table record map for CSV export
       var { mapRecord } = getTableNameForCSV(TABLE.HILLSBOROUGH_CLERK_CIVIL);
