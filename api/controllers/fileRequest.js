@@ -28,7 +28,6 @@ function buildFLClerkQuery(tableName, {county, case_type, case_number, case_titl
   if(county != "All Counties") {
       dbQuery += " AND COUNTY = " + sqlstring.escape(county);
   }
-
   if (case_type != "All Case Types") {
       dbQuery += " AND CASE_TYPE = " + sqlstring.escape(case_type);
   }
@@ -68,7 +67,7 @@ function buildFLClerkQuery(tableName, {county, case_type, case_number, case_titl
  * @returns List of Records
  */
 function getRecords(caseNumberArray, mapRecord) {
-  var query = `SELECT * from ${TABLE.HILLSBOROUGH_CLERK_CIVIL} where CASE_NUMBER in (${sqlstring.escape(caseNumberArray)})`;
+  var query = `SELECT * from ${TABLE.HILLSBOROUGH_CLERK_CIVIL} where caseNumber in (${sqlstring.escape(caseNumberArray)})`;
   return new Promise((resolve, reject) => {
     client.querySelect(query, mapRecord).then(result => {
       resolve(result);
