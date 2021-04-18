@@ -68,7 +68,6 @@ function buildFLClerkQuery(tableName, {county, case_type, case_number, case_titl
  */
 function getRecords(caseNumberArray, mapRecord) {
   var query = `SELECT * from ${TABLE.HILLSBOROUGH_CLERK_CIVIL} where CASE_NUMBER in (${sqlstring.escape(caseNumberArray)})`;
-  console.log(caseNumberArray)
   return new Promise((resolve, reject) => {
     client.querySelect(query, mapRecord).then(result => {
       resolve(result);
@@ -89,6 +88,7 @@ function getSearchRecords(filters, mapRecord) {
 
   // Build query
   var query = buildFLClerkQuery(TABLE.HILLSBOROUGH_CLERK_CIVIL, filters);
+  console.log(client.querySelect(query, mapRecord))
   return new Promise((resolve, reject) => {
     client.querySelect(query, mapRecord).then(result => {
       resolve(result);
