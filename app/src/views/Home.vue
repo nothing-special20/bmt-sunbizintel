@@ -29,7 +29,7 @@
           <div class="container py-5">
             <div class="py_vue_remap_class_4">
               <div class="heading-block border-bottom-0">
-                <h1 class="py_vue_remap_class_3 nott font-body">Get the data that you need to run your business better.</h1>
+                <h1 class="py_vue_remap_class_3 nott font-body">Business intelligence for B2B businesses focused on Florida.</h1>
               </div>
               <a href="http://sunshineanalytics.io/daasresearch" class="button button-green button-3d m-0">Ask for Data!</a>
             </div>

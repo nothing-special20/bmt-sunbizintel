@@ -13,6 +13,13 @@
           <li class="nav-item">
             <router-link to="/daasresearch">Want Specific Data?</router-link>
           </li>
+          <li class="nav-item">
+            <b-dropdown id="dataCata" size="md" dropright toggle-class="customDropdown" variant="none" text="Your Data Catalog" variance="success">
+              <b-dropdown-item toggle-class="text-dark" class="dataCataItem">
+                <router-link to="/flclerkquery">FL Clerk</router-link>
+              </b-dropdown-item>
+            </b-dropdown>
+          </li>
         </ul>
         <div class="collapse navbar-collapse">
           <ul class="navbar-nav ml-auto">
@@ -113,6 +120,14 @@ export default {
 </script>
 
 <style lang="scss">
+
+#dataCata {
+  background-color: white;
+}
+
+.dataCataItem {
+  background-color: #000;
+}
 
 #nav {
   padding: 30px;
