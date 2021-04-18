@@ -90,8 +90,8 @@ function getSearchRecords(filters, mapRecord) {
   var query = buildFLClerkQuery(TABLE.HILLSBOROUGH_CLERK_CIVIL, filters);
   console.log(client.querySelect(query, mapRecord))
   return new Promise((resolve, reject) => {
+    console.log('test querySelect' + client.querySelect(query, mapRecord))
     client.querySelect(query, mapRecord).then(result => {
-      console.log('test querySelect' + result)
       resolve(result);
     }).catch(err => {
       reject("Error getting search records.", err);
