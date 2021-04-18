@@ -23,7 +23,7 @@ function buildFLClerkQuery(tableName, {county, case_type, case_number, case_titl
   var filingDate = date;
 
   // Build query
-  var dbQuery = `SELECT CASE_NUMBER from ${tableName} WHERE 1=1 `;
+  var dbQuery = `SELECT DISTINCT CASE_NUMBER from ${tableName} WHERE 1=1 `;
 
   if(county != "All Counties") {
       dbQuery += " AND COUNTY = " + sqlstring.escape(county);
@@ -72,7 +72,7 @@ function getRecords(caseNumberArray, mapRecord) {
     client.querySelect(query, mapRecord).then(result => {
       resolve(result);
     }).catch(err => {
-      reject("Error getting records.", err);
+      reject("Error getting records." + `${sqlstring.escape(caseNumberArray)}`, err);
     });
   });
 }
