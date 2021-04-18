@@ -91,6 +91,7 @@ function getSearchRecords(filters, mapRecord) {
   console.log(client.querySelect(query, mapRecord))
   return new Promise((resolve, reject) => {
     client.querySelect(query, mapRecord).then(result => {
+      console.log('test querySelect' + result)
       resolve(result);
     }).catch(err => {
       reject("Error getting search records.", err);
