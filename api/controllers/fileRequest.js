@@ -183,6 +183,8 @@ function getRecordsAsCSV(filters) {
       // Get PPP_LOAN table record map for CSV export
       var { mapRecord } = getTableNameForCSV(TABLE.HILLSBOROUGH_CLERK_CIVIL);
 
+      console.log('test' + mapRecord)
+
       // Get loan data
       getRecords(caseNums, mapRecord).then(records => {
         resolve({
