@@ -9,7 +9,7 @@
             <label for="county-search-item">County:</label>
             <select id="county-search-item" class="form-control" aria-label="County" v-model="filters.county">
               <option value="All Counties">All Counties</option>
-              <option value="Hillsborough">Hillsborough</option>
+              <option value="hillsborough">Hillsborough</option>
             </select>
           </div>
         </div>
