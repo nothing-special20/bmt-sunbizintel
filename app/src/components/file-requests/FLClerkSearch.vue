@@ -311,13 +311,13 @@ export default {
     return {
       searchError: "",
       filters: {
-        county: "",
-        case_type: "",
+        county: "All Counties",
+        case_type: "All Case Types",
         case_number: "",
         case_title: "",
         party_name: "",
         attorney_name: "",
-        party_type: "",
+        party_type: "All Party Types",
         date: {
           from: "",
           to: ""

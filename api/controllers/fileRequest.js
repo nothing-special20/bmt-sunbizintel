@@ -38,13 +38,13 @@ function buildFLClerkQuery(tableName, {county, case_type, case_number, case_titl
       dbQuery += ` AND TITLE like ${sqlstring.escape("%" + case_title + "%")}`;
   }
   if (party_name != "") {
-      dbQuery += ` AND PARTY_FULL_NAME like ${sqlstring.escape("%" + party_name + "%")}`;
+      dbQuery += ` AND FULL_PARTY_NAME like ${sqlstring.escape("%" + party_name + "%")}`;
   }
   if (attorney_name != "") {
       dbQuery += ` AND ATTORNEY like ${sqlstring.escape("%" + attorney_name + "%")}`;
   }
   if (party_type != "All Party Types") {
-      dbQuery += ` AND PARTY_TYPES like ${sqlstring.escape("%" + party_type + "%")}`;
+      dbQuery += ` AND PARTY_TYPE like ${sqlstring.escape("%" + party_type + "%")}`;
   }
   if (filingDate.from !== "") {
     dbQuery += " AND DATE(FILING_DATE) >= " + sqlstring.escape(filingDate.from);
