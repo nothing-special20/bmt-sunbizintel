@@ -1,5 +1,5 @@
 const { TABLE } = require("./tables");
-const { csvModel: pppCsvModel, csvRecordMap: pppLoansCsvMap } = require("../models/PppLoans");
+const { csvModel: flClerkCivilCsvModel, csvRecordMap: pppLoansCsvMap } = require("../models/FlClerkCivil");
 const { clerkCivilCsvModel } = require("../models/ClerkCivil");
 
 // Map of models for CSV export
@@ -7,7 +7,7 @@ const MODEL = {
   DIVORCE: clerkCivilCsvModel,
   EVICTION: clerkCivilCsvModel,
   FORECLOSURE: clerkCivilCsvModel,
-  PPP_LOANS: pppCsvModel
+  FL_CLERK_CIVIL: flClerkCivilCsvModel
 }
 
 /**
