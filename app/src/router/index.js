@@ -11,6 +11,7 @@ import FileRequests from "@/views/FileRequests.vue";
 import UserQuestions from "@/views/UserQuestions.vue"
 import DaaSResearch from "@/views/DaaSResearch.vue";
 import FileRequestHistory from "@/views/FileRequestHistory";
+import FLClerkQuery from "@/views/FLClerkQuery.vue";
 import Test from "../views/Test.vue";
 import LoginView from "@/views/auth/LoginView.vue";
 import Register from "@/views/auth/Register.vue";
@@ -122,6 +123,12 @@ const routes = [
     path: "/file/requests/history",
     name: "FileRequestHistory",
     component: FileRequestHistory,
+    beforeEnter: isAuthenticated
+  },
+  {
+    path: "/flclerkquery",
+    name: "FLClerkQuery",
+    component: FLClerkQuery,
     beforeEnter: isAuthenticated
   }
 ];
