@@ -40,19 +40,19 @@ module.exports.csvModel = [
  */
 exports.recordMap = function (row) {
   return {
-    caseCategory: row[0],
-    caseTypeDescription: row[1],
-    caseNumber: row[2],
-    title: row[3],
-    filingDate: row[4],
-    partyType: row[5],
-    firstName: row[6],
-    middleName: row[7],
-    lastNameCompanyName: row[8],
-    partyAddress: row[9],
-    attorney: row[10],
-    county: row[11],
-    fullPartyName: row[12]
+    CaseCategory: row[0],
+    CaseTypeDescription: row[1],
+    CaseNumber: row[2],
+    Title: row[3],
+    FilingDate: row[4],
+    PartyType: row[5],
+    FirstName: row[6],
+    MiddleName: row[7],
+    LastNameCompanyName: row[8],
+    PartyAddress: row[9],
+    Attorney: row[10],
+    County: row[11],
+    FullPartyName: row[12]
   }
 }
 
@@ -63,18 +63,18 @@ exports.recordMap = function (row) {
  */
 exports.csvRecordMap = function (row) {
   return {
-    caseCategory: row[0],
-    caseTypeDescription: row[1],
-    caseNumber: row[2],
-    title: row[3],
-    filingDate: row[4],
-    partyType: row[5],
-    firstName: row[6],
-    middleName: row[7],
-    lastNameCompanyName: row[8],
-    partyAddress: row[9],
-    attorney: row[10],
-    county: row[11],
-    fullPartyName: row[12]
+    CaseCategory: row[0],
+    CaseTypeDescription: row[1],
+    CaseNumber: row[2],
+    Title: row[3],
+    FilingDate: row[4],
+    PartyType: row[5],
+    FirstName: row[6],
+    MiddleName: row[7],
+    LastNameCompanyName: row[8],
+    PartyAddress: row[9],
+    Attorney: row[10],
+    County: row[11],
+    FullPartyName: row[12]
   }
 }
