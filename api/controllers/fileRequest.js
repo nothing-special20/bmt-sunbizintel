@@ -251,6 +251,37 @@ async function getSampleFile(res) {
 }
 exports.getSampleFile = getSampleFile;
 
+async function getFullFile(httpQuery, res) {
+
+  try {
+    var { mapRecord } = getTableNameForCSV(TABLE.HILLSBOROUGH_CLERK_CIVIL);
+    /** var query = `SELECT * from ${TABLE.HILLSBOROUGH_CLERK_CIVIL} LIMIT 10`; */
+    let filters = JSON.parse(httpQuery.specifications);
+
+    // If 'TO' date is not set, set it to date of request
+    if (filters.date.to === undefined || filters.date.to === "") {
+      filters.date.to = httpQuery.requestDate;
+    }
+
+    var query = buildFLClerkQuery(TABLE.HILLSBOROUGH_CLERK_CIVIL, filters);
+
+    var entries = await client.querySelect(query, mapRecord);
+
+    // Build CSV
+    var csv = convertDataToCSV(TABLE.HILLSBOROUGH_CLERK_CIVIL, entries);
+
+    // Set response header to indicate CSV file
+    res.setHeader("Content-Type", "text/csv");
+    res.setHeader("Content-Disposition", `attachment; filename=${TABLE.HILLSBOROUGH_CLERK_CIVIL}.csv`);
+    return res.status(200).send(csv);
+
+  } catch (err) {
+    console.log("Error creating sample CSV.", err);
+    return res.status(500).send({ msg: "Unable to retrieve sample CSV." });
+  }
+}
+exports.getFullFile = getFullFilex;
+
 /**
  * Insert file request to user history
  */

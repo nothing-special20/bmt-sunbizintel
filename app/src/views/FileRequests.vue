@@ -29,7 +29,7 @@
             <h3>Request File:</h3>
           </div>
           <div class="col-md-1">
-            <button class="btn btn-alternative" v-on:click="onSampleBtnClick">Sample</button>
+            <button class="btn btn-alternative" v-on:click="onFullBtnClick">Down File</button>
           </div>
           <div v-if="!initialDisplay" class="col-md-2">
             <button class="btn btn-main" v-on:click="navigateToHistoryView()">History</button>
@@ -90,6 +90,20 @@ export default {
         const link = document.createElement("a");
         link.href = URL.createObjectURL(blob);
         link.download = "sample.csv";
+        link.click();
+        URL.revokeObjectURL(link.href);
+      }).catch(err => {
+        this.displayError = err.response.data.msg;
+      });
+    },
+    onFullBtnClick () {
+      this.displayError = "";
+
+      ApiService.getFullFile().then(httpQuery, response => {
+        const blob = new Blob([response.data], { type: response.headers["content-type"] });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "fl_county_clerk.csv";
         link.click();
         URL.revokeObjectURL(link.href);
       }).catch(err => {
