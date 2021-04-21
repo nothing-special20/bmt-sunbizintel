@@ -234,8 +234,8 @@ async function getSampleFile(req, res) {
     var { mapRecord } = getTableNameForCSV(TABLE.HILLSBOROUGH_CLERK_CIVIL);
     // console.log(req)
     const filters = JSON.parse(req.query.filters);
-    var query = `SELECT * from ${TABLE.HILLSBOROUGH_CLERK_CIVIL} LIMIT 20`;
-    // var query = buildFLClerkQuery(TABLE.HILLSBOROUGH_CLERK_CIVIL, '*', filters);
+    // var query = `SELECT * from ${TABLE.HILLSBOROUGH_CLERK_CIVIL} LIMIT 20`;
+    var query = buildFLClerkQuery(TABLE.HILLSBOROUGH_CLERK_CIVIL, '*', filters);
     console.log(query)
 
     var entries = await client.querySelect(query, mapRecord);
@@ -250,7 +250,6 @@ async function getSampleFile(req, res) {
     res.setHeader("Content-Disposition", `attachment; filename=${TABLE.HILLSBOROUGH_CLERK_CIVIL}.csv`);
     console.log('test3')
     return res.status(200).send(csv);
-    console.log('test4')
 
   } catch (err) {
     console.log("Error creating sample CSV.", err);
