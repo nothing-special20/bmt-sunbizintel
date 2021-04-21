@@ -63,14 +63,7 @@ export default {
     onSampleBtnClick () {
       this.displayError = "";
 
-      ApiService.getSampleFile().then(response => {
-        const blob = new Blob([response.data], { type: response.headers["content-type"] });
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = "HILLSBOROUGH_CLERK_CIVIL.csv";
-        link.click();
-        URL.revokeObjectURL(link.href);
-      }).catch(err => {
+      ApiService.getSampleFile().then().catch(err => {
         this.displayError = err.response.data.msg;
       });
     }

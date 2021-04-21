@@ -7,7 +7,6 @@ const daasResearchController = require("../controllers/daasresearch");
 const authRoutes = require("./auth");
 const subscriptionRoutes = require("./subscription");
 const requestRoutes = require("./file-requests");
-const checkoutRoutes = require("./checkout");
 
 var router = express.Router();
 
@@ -21,7 +20,6 @@ router.use(function timeLog(req, res, next) {
 router.use(authRoutes);
 router.use(subscriptionRoutes);
 router.use(requestRoutes);
-router.use(checkoutRoutes);
 
 /**
  * User feedback route

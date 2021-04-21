@@ -241,15 +241,24 @@ async function getSampleFile(req, res) {
     var entries = await client.querySelect(query, mapRecord);
 
     // Build CSV
-    console.log('test1')
-    var csv = convertDataToCSV(TABLE.HILLSBOROUGH_CLERK_CIVIL, entries);
-    console.log('test2')
+    // var csvData = convertDataToCSV(TABLE.HILLSBOROUGH_CLERK_CIVIL, entries);
+    // console.log(csvData)
 
     // Set response header to indicate CSV file
     res.setHeader("Content-Type", "text/csv");
     res.setHeader("Content-Disposition", `attachment; filename=${TABLE.HILLSBOROUGH_CLERK_CIVIL}.csv`);
     // console.log(res)
-    return res.status(200).send(csv);
+    const fastcsv = require("fast-csv");
+    const fs = require("fs");
+    const ws = fs.createWriteStream(`HILLSBOROUGH_CLERK_CIVIL.csv`)
+
+    console.log(entries)
+    console.log('Preparing to export to csv...')
+    fastcsv
+      .write(entries, { headers: true })
+      .pipe(ws)
+
+    console.log('Successfully exported to CSV!')
 
   } catch (err) {
     console.log("Error creating sample CSV.", err);
