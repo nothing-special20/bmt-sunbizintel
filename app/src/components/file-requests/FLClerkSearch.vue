@@ -303,6 +303,7 @@
 
 <script>
 // @ is an alias to /src
+import ApiService from "@/http/file-request";
 
 export default {
   name: "FileRequestSearch",
@@ -336,11 +337,17 @@ export default {
       }
     };
   },
+  computed: {
+    downloadFilters () {
+      return this.$store.getters["FileRequest/getDownloadFilters"];
+    }
+  },
   methods: {
-    onSearchClick () {
+    onSearchClickDelete () {
       // Reset search Error
       this.searchError = "";
 
+      // this.$store.dispatch("FileRequest/QUERY_FILE_INFO", JSON.parse(JSON.stringify(this.filters))).catch(err => {
       this.$store.dispatch("FileRequest/QUERY_FILE_INFO", JSON.parse(JSON.stringify(this.filters))).catch(err => {
         // this.searchError = err.response.data.msg;
         console.log(err);
@@ -361,6 +368,28 @@ export default {
         return false;
       }
       return true;
+    },
+    onSearchClick () {
+      // Reset search Error
+      this.searchError = "";
+
+      this.$store.dispatch("FileRequest/QUERY_FILE_INFO", JSON.parse(JSON.stringify(this.filters))).catch(err => {
+        // this.searchError = err.response.data.msg;
+        console.log(err);
+      });
+
+      this.displayError = "";
+
+      ApiService.getSampleFile().then(response => {
+        const blob = new Blob([response.data], { type: response.headers["content-type"] });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "sample.csv";
+        link.click();
+        URL.revokeObjectURL(link.href);
+      }).catch(err => {
+        this.displayError = err.response.data.msg;
+      });
     }
   },
   watch: {

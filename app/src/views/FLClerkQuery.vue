@@ -18,10 +18,7 @@
             <h3>Request File:</h3>
           </div>
           <div class="col-md-1">
-            <button class="btn btn-alternative" v-on:click="onSampleBtnClick">Sample</button>
-          </div>
-          <div v-if="!initialDisplay" class="col-md-2">
-            <button class="btn btn-main" v-on:click="navigateToHistoryView()">History</button>
+            <button class="btn btn-alternative" v-on:click="onSampleBtnClick">Download File</button>
           </div>
           <div class="col-md-12 error">
             {{ displayError }}
@@ -34,12 +31,6 @@
            <FLClerkSearch />
           </div>
           <!-- History Component Box -->
-          <div id="history-display" class="col-md-5 offset-md-1 request-component" v-if="initialDisplay" v-on:click="navigateToHistoryView()">
-            <History />
-          </div>
-          <div id="result-display" class="col-md-5 offset-md-1 request-component" v-if="!initialDisplay">
-            <Result />
-          </div>
         </div>
       </div>
     </div>
@@ -49,14 +40,12 @@
 <script>
 // @ is an alias to /src
 // import DatePicker from "vue2-datepicker";
-import History from "@/components/file-requests/History";
-import Result from "@/components/file-requests/Result";
 import FLClerkSearch from "@/components/file-requests/FLClerkSearch";
 import ApiService from "@/http/file-request";
 
 export default {
   name: "FileRequests",
-  components: { History, Result, FLClerkSearch },
+  components: { FLClerkSearch },
   data () {
     return {
       displayError: ""

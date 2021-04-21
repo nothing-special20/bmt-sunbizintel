@@ -32,7 +32,9 @@ export default {
   /**
    * HTTP Call to download sample file
    */
-  getSampleFile () {
-    return client.get("/request/file/sample").then(response => response);
+  getSampleFile (filters) {
+    return client.get("/request/file/sample", {
+      params: filters
+    }).then(response => response);
   }
 };

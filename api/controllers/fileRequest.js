@@ -19,11 +19,11 @@ var caseNumberMap = function createMap(row) {
 /**
  * Build query from filters
  */
-function buildFLClerkQuery(tableName, {county, case_type, case_number, case_title, party_name, attorney_name, party_type, date, party_address}) {
+function buildFLClerkQuery(tableName, selValue, {county, case_type, case_number, case_title, party_name, attorney_name, party_type, date, party_address}) {
   var filingDate = date;
 
   // Build query
-  var dbQuery = `SELECT DISTINCT CASE_NUMBER from ${tableName} WHERE 1=1 `;
+  var dbQuery = `SELECT ` + selValue + ` from ${tableName} WHERE 1=1 `;
 
   if(county != "All Counties") {
       dbQuery += " AND COUNTY = " + sqlstring.escape(county);
@@ -87,10 +87,9 @@ function getSearchRecords(filters, mapRecord) {
   // Get Table Name and map
 
   // Build query
-  var query = buildFLClerkQuery(TABLE.HILLSBOROUGH_CLERK_CIVIL, filters);
-  console.log(client.querySelect(query, mapRecord))
+  var query = buildFLClerkQuery(TABLE.HILLSBOROUGH_CLERK_CIVIL, 'DISTINCT CASE_NUMBER', filters);
   return new Promise((resolve, reject) => {
-    console.log('test querySelect' + client.querySelect(query, mapRecord))
+    // console.log('test querySelect' + client.querySelect(query, mapRecord))
     client.querySelect(query, mapRecord).then(result => {
       resolve(result);
     }).catch(err => {
@@ -228,21 +227,30 @@ exports.getFileData = getFileData;
 /**
  * Get sample CSV
  */
-async function getSampleFile(res) {
+async function getSampleFile(req, res) {
 
   try {
+    /**let filters = JSON.parse(httpQuery.specifications);*/
     var { mapRecord } = getTableNameForCSV(TABLE.HILLSBOROUGH_CLERK_CIVIL);
-    var query = `SELECT * from ${TABLE.HILLSBOROUGH_CLERK_CIVIL} LIMIT 10`;
+    // console.log(req)
+    const filters = JSON.parse(req.query.filters);
+    var query = `SELECT * from ${TABLE.HILLSBOROUGH_CLERK_CIVIL} LIMIT 20`;
+    // var query = buildFLClerkQuery(TABLE.HILLSBOROUGH_CLERK_CIVIL, '*', filters);
+    console.log(query)
 
     var entries = await client.querySelect(query, mapRecord);
 
     // Build CSV
+    console.log('test1')
     var csv = convertDataToCSV(TABLE.HILLSBOROUGH_CLERK_CIVIL, entries);
+    console.log('test2')
 
     // Set response header to indicate CSV file
     res.setHeader("Content-Type", "text/csv");
     res.setHeader("Content-Disposition", `attachment; filename=${TABLE.HILLSBOROUGH_CLERK_CIVIL}.csv`);
+    console.log('test3')
     return res.status(200).send(csv);
+    console.log('test4')
 
   } catch (err) {
     console.log("Error creating sample CSV.", err);
@@ -250,37 +258,6 @@ async function getSampleFile(res) {
   }
 }
 exports.getSampleFile = getSampleFile;
-
-async function getFullFile(httpQuery, res) {
-
-  try {
-    var { mapRecord } = getTableNameForCSV(TABLE.HILLSBOROUGH_CLERK_CIVIL);
-    /** var query = `SELECT * from ${TABLE.HILLSBOROUGH_CLERK_CIVIL} LIMIT 10`; */
-    let filters = JSON.parse(httpQuery.specifications);
-
-    // If 'TO' date is not set, set it to date of request
-    if (filters.date.to === undefined || filters.date.to === "") {
-      filters.date.to = httpQuery.requestDate;
-    }
-
-    var query = buildFLClerkQuery(TABLE.HILLSBOROUGH_CLERK_CIVIL, filters);
-
-    var entries = await client.querySelect(query, mapRecord);
-
-    // Build CSV
-    var csv = convertDataToCSV(TABLE.HILLSBOROUGH_CLERK_CIVIL, entries);
-
-    // Set response header to indicate CSV file
-    res.setHeader("Content-Type", "text/csv");
-    res.setHeader("Content-Disposition", `attachment; filename=${TABLE.HILLSBOROUGH_CLERK_CIVIL}.csv`);
-    return res.status(200).send(csv);
-
-  } catch (err) {
-    console.log("Error creating sample CSV.", err);
-    return res.status(500).send({ msg: "Unable to retrieve sample CSV." });
-  }
-}
-exports.getFullFile = getFullFilex;
 
 /**
  * Insert file request to user history
