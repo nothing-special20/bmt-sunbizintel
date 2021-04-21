@@ -248,7 +248,7 @@ async function getSampleFile(req, res) {
     // Set response header to indicate CSV file
     res.setHeader("Content-Type", "text/csv");
     res.setHeader("Content-Disposition", `attachment; filename=${TABLE.HILLSBOROUGH_CLERK_CIVIL}.csv`);
-    console.log('test3')
+    // console.log(res)
     return res.status(200).send(csv);
 
   } catch (err) {

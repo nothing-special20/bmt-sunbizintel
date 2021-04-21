@@ -35,6 +35,6 @@ export default {
   getSampleFile (filters) {
     return client.get("/request/file/sample", {
       params: filters
-    }).then(response => response);
+    }).then(response => response.data);
   }
 };
