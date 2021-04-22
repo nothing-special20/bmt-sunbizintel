@@ -7,6 +7,7 @@ const { model: pppLoansSearchModel, recordMap: pppLoansSearchMap } = require("..
 const { model: fileRequestHistoryModel, recordMap: fileRequestHistoryMap } = require("../models/FileRequestHistory");
 const { model: ordersModel, recordMap: ordersMap } = require("../models/Orders");
 const { subscriptionsModel } = require("../models/Subscriptions");
+const { model: hillsClerkCivilModel, recordMap: hillsClerkCivilMap } = require("../models/FlClerkCivil");
 
 // List of tables
 const TABLE = {
@@ -25,7 +26,7 @@ const TABLE = {
   PPP_PUBLIC_NY_TEST: "PPP_PUBLIC_NY_TEST",
   BNI_REF_REQUESTS: "BNI_REF_REQUESTS",
   DAAS_RESEARCH: "DAAS_RESEARCH",
-  HILLSBOROUGH_CLERK_CIVIL: "HILLSBOROUGH_CLERK_CIVIL" 
+  HILLSBOROUGH_CLERK_CIVIL: "HILLSBOROUGH_CLERK_CIVIL"
 }
 exports.TABLE = TABLE;
 
@@ -42,6 +43,7 @@ const MODEL = {
   DIVORCE: clerkCivilModel,
   EVICTION: clerkCivilModel,
   FORECLOSURE: clerkCivilModel,
+  HILLSBOROUGH_CLERK_CIVIL: hillsClerkCivilModel
 }
 exports.MODEL = MODEL;
 
@@ -53,7 +55,8 @@ var RECORD_MAP = {
   PP_LOANS_SEARCH: pppLoansSearchMap,
   PPP_LOANS: pppLoansMap,
   FILE_REQUEST_HISTORY: fileRequestHistoryMap,
-  ORDERS: ordersMap
+  ORDERS: ordersMap,
+  HILLSBOROUGH_CLERK_CIVIL: hillsClerkCivilMap
 }
 exports.RECORD_MAP = RECORD_MAP;
 
