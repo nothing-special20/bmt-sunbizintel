@@ -19,7 +19,7 @@ var caseNumberMap = function createMap(row) {
 /**
  * Build query from filters
  */
-function buildFLClerkQuery(tableName, selValue, {county, case_type, case_number, case_title, party_name, attorney_name, party_type, date, party_address}) {
+function buildFLClerkQuery(tableName, selValue, {county, caseType, caseNumber, caseTitle, partyName, attorneyName, partyType, date, partyAddress}) {
   var filingDate = date;
 
   // Build query
@@ -28,23 +28,23 @@ function buildFLClerkQuery(tableName, selValue, {county, case_type, case_number,
   if(county != "All Counties") {
       dbQuery += " AND COUNTY = " + sqlstring.escape(county);
   }
-  if (case_type != "All Case Types") {1
-      dbQuery += " AND CASE_TYPE_DESCRIPTION = " + sqlstring.escape(case_type);
+  if (caseType !== "") {1
+      dbQuery += " AND CASE_TYPE_DESCRIPTION = " + sqlstring.escape(caseType);
   }
-  if (case_number != "") {
-      dbQuery += ` AND CASE_NUMBER REGEXP ${sqlstring.escape(case_number)}`;
+  if (caseNumber !== "") {
+      dbQuery += ` AND CASE_NUMBER REGEXP ${sqlstring.escape(caseNumber)}`;
   }
-  if (case_title != "") {
-      dbQuery += ` AND TITLE REGEXP ${sqlstring.escape(case_title)}`;
+  if (caseTitle !== "") {
+      dbQuery += ` AND TITLE REGEXP ${sqlstring.escape(caseTitle)}`;
   }
-  if (party_name != "") {
-      dbQuery += ` AND FULL_PARTY_NAME REGEXP ${sqlstring.escape(party_name)}`;
+  if (partyName !== "") {
+      dbQuery += ` AND FULL_PARTY_NAME REGEXP ${sqlstring.escape(partyName)}`;
   }
-  if (attorney_name != "") {
-      dbQuery += ` AND ATTORNEY REGEXP ${sqlstring.escape(attorney_name)}`;
+  if (attorneyName !== "") {
+      dbQuery += ` AND ATTORNEY REGEXP ${sqlstring.escape(attorneyName)}`;
   }
-  if (party_type != "All Party Types") {
-      dbQuery += ` AND PARTY_TYPE REGEXP ${sqlstring.escape(party_type)}`;
+  if (partyType !== "All Party Types") {
+      dbQuery += ` AND PARTY_TYPE REGEXP ${sqlstring.escape(partyType)}`;
   }
   if (filingDate.from !== "") {
     dbQuery += " AND DATE(FILING_DATE) >= " + sqlstring.escape(filingDate.from);
@@ -52,8 +52,8 @@ function buildFLClerkQuery(tableName, selValue, {county, case_type, case_number,
   if (filingDate.to !== "") {
     dbQuery += " AND DATE(FILING_DATE) <= " + sqlstring.escape(filingDate.to);
   }
-  if(party_address != "") {
-      dbQuery += " AND PARTY_ADDRESS = " + sqlstring.escape(party_address);
+  if(partyAddress != "") {
+      dbQuery += " AND PARTY_ADDRESS = " + sqlstring.escape(partyAddress);
   }
 
   return dbQuery;
@@ -227,38 +227,37 @@ exports.getFileData = getFileData;
 /**
  * Get sample CSV
  */
-async function getSampleFile(req, res) {
+async function getSampleFile(httpQuery, res) {
 
   try {
-    /**let filters = JSON.parse(httpQuery.specifications);*/
-    var { mapRecord } = getTableNameForCSV(TABLE.HILLSBOROUGH_CLERK_CIVIL);
     // console.log(req)
-    const filters = JSON.parse(req.query.filters);
+    const filters = JSON.parse(httpQuery.filters);
     // var query = `SELECT * from ${TABLE.HILLSBOROUGH_CLERK_CIVIL} LIMIT 20`;
     var query = buildFLClerkQuery(TABLE.HILLSBOROUGH_CLERK_CIVIL, '*', filters);
-    console.log(query)
+    query += " LIMIT 10";
+    console.log("SQL query: ", query);
 
-    var entries = await client.querySelect(query, mapRecord);
+    var entries = await client.querySelect(query, RECORD_MAP.HILLSBOROUGH_CLERK_CIVIL);
 
     // Build CSV
-    // var csvData = convertDataToCSV(TABLE.HILLSBOROUGH_CLERK_CIVIL, entries);
+    var csvData = convertDataToCSV(TABLE.HILLSBOROUGH_CLERK_CIVIL, entries);
     // console.log(csvData)
 
     // Set response header to indicate CSV file
     res.setHeader("Content-Type", "text/csv");
     res.setHeader("Content-Disposition", `attachment; filename=${TABLE.HILLSBOROUGH_CLERK_CIVIL}.csv`);
+    return res.status(200).send(csvData);
     // console.log(res)
-    const fastcsv = require("fast-csv");
-    const fs = require("fs");
-    const ws = fs.createWriteStream(`HILLSBOROUGH_CLERK_CIVIL.csv`)
+    // const fastcsv = require("fast-csv");
+    // const fs = require("fs");
+    // const ws = fs.createWriteStream(`HILLSBOROUGH_CLERK_CIVIL.csv`)
 
-    console.log(entries)
-    console.log('Preparing to export to csv...')
-    fastcsv
-      .write(entries, { headers: true })
-      .pipe(ws)
-
-    console.log('Successfully exported to CSV!')
+    // console.log(entries)
+    // console.log('Preparing to export to csv...')
+    // fastcsv
+    //   .write(entries, { headers: true })
+    //   .pipe(ws)
+    //   .pipe(res);
 
   } catch (err) {
     console.log("Error creating sample CSV.", err);

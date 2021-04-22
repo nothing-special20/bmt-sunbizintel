@@ -18,7 +18,7 @@
             <h3>Request File:</h3>
           </div>
           <div class="col-md-1">
-            <button class="btn btn-alternative" v-on:click="onSampleBtnClick">Download File</button>
+            <!--<button class="btn btn-alternative" v-on:click="onSampleBtnClick">Download File</button>-->
           </div>
           <div class="col-md-12 error">
             {{ displayError }}
@@ -41,7 +41,7 @@
 // @ is an alias to /src
 // import DatePicker from "vue2-datepicker";
 import FLClerkSearch from "@/components/file-requests/FLClerkSearch";
-import ApiService from "@/http/file-request";
+// import ApiService from "@/http/file-request";
 
 export default {
   name: "FileRequests",
@@ -59,14 +59,14 @@ export default {
   methods: {
     navigateToHistoryView () {
       this.$router.push({ name: "FileRequestHistory" });
-    },
-    onSampleBtnClick () {
-      this.displayError = "";
-
-      ApiService.getSampleFile().then().catch(err => {
-        this.displayError = err.response.data.msg;
-      });
     }
+    // onSampleBtnClick () {
+    //   this.displayError = "";
+    //   this.$store.dispatch("FileRequest/SAMPLE_FILE)
+    //   ApiService.getSampleFile().then().catch(err => {
+    //     this.displayError = err.response.data.msg;
+    //   });
+    // }
   }
 };
 </script>

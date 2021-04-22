@@ -30,10 +30,10 @@ router.get("/request/file/history/download", userMiddleware.isAuthorized, (req, 
 });
 
 router.get("/request/file/data", userMiddleware.isAuthorized, (req, res) => {
-  // console.log("Received request for file. ", req.query);
+  console.log("Received request for file: ", req.query);
   // fileRequestController.getFileData(req.query, res);
   console.log("Getting sample file.");
-  fileRequestController.getSampleFile(req, res);
+  fileRequestController.getSampleFile(req.query, res);
 });
 
 module.exports = router;

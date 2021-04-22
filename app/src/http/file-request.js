@@ -33,8 +33,11 @@ export default {
    * HTTP Call to download sample file
    */
   getSampleFile (filters) {
+    console.log("Filters: ", filters);
     return client.get("/request/file/data", {
-      params: filters
+      params: {
+        filters: filters
+      }
     }).then(response => response.data);
   }
 };

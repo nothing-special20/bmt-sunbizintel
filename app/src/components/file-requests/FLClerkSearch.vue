@@ -16,8 +16,8 @@
         <div class="col-sm-6">
           <div class="form-group">
             <label for="case-type-search-item">Case Type:</label>
-            <select id="case-type-search-item" class="form-control" aria-label="Case Type" v-model="filters.case_type">
-              <option value="All Case Types">All Case Types</option>
+            <select id="case-type-search-item" class="form-control" aria-label="Case Type" v-model="filters.caseType">
+              <option value="">All Case Types</option>
               <option value="(DOR) Administrative Support Order">(DOR) Administrative Support Order</option>
               <option value="(DOR) Dependent Support Enforcement">(DOR) Dependent Support Enforcement</option>
               <option value="(DOR) New Obligee">(DOR) New Obligee</option>
@@ -212,27 +212,27 @@
       <!-- Job Search Boxes -->
       <div class="form-group">
         <label for="case-number-search-item">Case Number:</label>
-        <input id="case-number-search-item" class="form-control" type="text" v-model="filters.case_number" />
+        <input id="case-number-search-item" class="form-control" type="text" v-model="filters.caseNumber" />
       </div>
       <!-- Case Title -->
       <div class="form-group">
         <label for="case-title-search-item">Case Title:</label>
-        <input id="case-title-search-item" class="form-control" type="text" v-model="filters.case_title" />
+        <input id="case-title-search-item" class="form-control" type="text" v-model="filters.caseTitle" />
       </div>
       <!-- Party Name -->
       <div class="form-group">
         <label for="party-name-search-item">Party Name:</label>
-        <input id="party-name-search-item" class="form-control" type="text" v-model="filters.party_name" />
+        <input id="party-name-search-item" class="form-control" type="text" v-model="filters.partyName" />
       </div>
       <!-- Attorney Name -->
       <div class="form-group">
         <label for="attorney-name-search-item">Attorney Name:</label>
-        <input id="attorney-name-search-item" class="form-control" type="text" v-model="filters.attorney_name" />
+        <input id="attorney-name-search-item" class="form-control" type="text" v-model="filters.attorneyName" />
       </div>
       <!-- Party Types -->
       <div class="form-group">
         <label for="party-type-search-item">Party Type:</label>
-        <select id="party-type-search-item" class="form-control" aria-label="Party Type" v-model="filters.party_type">
+        <select id="party-type-search-item" class="form-control" aria-label="Party Type" v-model="filters.partyType">
           <option value="All Party Types">All Party Types</option>
           <option value="Plaintiff">Plaintiff</option>
           <option value="Defendant">Defendant</option>
@@ -294,8 +294,9 @@
       <!-- Amount Search Boxes -->
       <div class="form-group">
         <label for="party-addr-search-item">Party Address:</label>
-        <input id="party-addr-search-item" class="form-control" type="text" v-model="filters.party_address" />
+        <input id="party-addr-search-item" class="form-control" type="text" v-model="filters.partyAddress" />
       </div>
+      <button class="btn btn-alternative" v-on:click="onSampleBtnClick">Download Sample</button>
       <button class="btn btn-primary" v-on:click="onSearchClick">Submit</button>
     </div>
   </div>
@@ -313,17 +314,17 @@ export default {
       searchError: "",
       filters: {
         county: "All Counties",
-        case_type: "All Case Types",
-        case_number: "",
-        case_title: "",
-        party_name: "",
-        attorney_name: "",
-        party_type: "All Party Types",
+        caseType: "All Case Types",
+        caseNumber: "",
+        caseTitle: "",
+        partyName: "",
+        attorneyName: "",
+        partyType: "All Party Types",
         date: {
           from: "",
           to: ""
         },
-        party_address: ""
+        partyAddress: ""
       },
       result: {
         entries: 0,
@@ -369,18 +370,11 @@ export default {
       }
       return true;
     },
-    onSearchClick () {
+    onSampleBtnClick () {
       // Reset search Error
       this.searchError = "";
 
-      this.$store.dispatch("FileRequest/QUERY_FILE_INFO", JSON.parse(JSON.stringify(this.filters))).catch(err => {
-        // this.searchError = err.response.data.msg;
-        console.log(err);
-      });
-
-      this.displayError = "";
-
-      ApiService.getSampleFile().then(response => {
+      ApiService.getSampleFile(JSON.stringify(this.filters)).then(response => {
         const blob = new Blob([response.data], { type: response.headers["content-type"] });
         const link = document.createElement("a");
         link.href = URL.createObjectURL(blob);
@@ -388,7 +382,27 @@ export default {
         link.click();
         URL.revokeObjectURL(link.href);
       }).catch(err => {
-        this.displayError = err.response.data.msg;
+        this.searchError = err.response.data.msg;
+      });
+    },
+    onSearchClick () {
+      // Reset search Error
+      this.searchError = "";
+
+      this.$store.dispatch("FileRequest/QUERY_FILE_INFO", this.filters).catch(err => {
+        console.log(err);
+        this.searchError = err.response.data.msg;
+      });
+
+      ApiService.downloadFileRequest(JSON.stringify(this.filters)).then(response => {
+        const blob = new Blob([response.data], { type: response.headers["content-type"] });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "HILLSBOROUGH_CLERK_CIVIL.csv";
+        link.click();
+        URL.revokeObjectURL(link.href);
+      }).catch(err => {
+        this.searchError = err.response.data.msg;
       });
     }
   },
