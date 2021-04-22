@@ -241,7 +241,7 @@ async function getSampleFile(httpQuery, res) {
 
     // Build CSV
     var csvData = convertDataToCSV(TABLE.HILLSBOROUGH_CLERK_CIVIL, entries);
-    console.log(entries)
+    console.log(csvData)
     // console.log(csvData)
 
     // Set response header to indicate CSV file
