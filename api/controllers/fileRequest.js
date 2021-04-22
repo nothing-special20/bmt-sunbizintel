@@ -238,6 +238,7 @@ async function getSampleFile(httpQuery, res) {
     console.log("SQL query: ", query);
 
     var entries = await client.querySelect(query, RECORD_MAP.HILLSBOROUGH_CLERK_CIVIL);
+    console.log(entries)
 
     // Build CSV
     var csvData = convertDataToCSV(TABLE.HILLSBOROUGH_CLERK_CIVIL, entries);
