@@ -28,7 +28,7 @@ function buildFLClerkQuery(tableName, selValue, {county, caseType, caseNumber, c
   if(county != "All Counties") {
       dbQuery += " AND COUNTY = " + sqlstring.escape(county);
   }
-  if (caseType !== "") {1
+  if (caseType !== "All Case Types") {
       dbQuery += " AND CASE_TYPE_DESCRIPTION = " + sqlstring.escape(caseType);
   }
   if (caseNumber !== "") {

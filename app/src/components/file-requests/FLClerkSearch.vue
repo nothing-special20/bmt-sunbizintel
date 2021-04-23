@@ -17,7 +17,7 @@
           <div class="form-group">
             <label for="case-type-search-item">Case Type:</label>
             <select id="case-type-search-item" class="form-control" aria-label="Case Type" v-model="filters.caseType">
-              <option value="">All Case Types</option>
+              <option value="All Case Types">All Case Types</option>
               <option value="(DOR) Administrative Support Order">(DOR) Administrative Support Order</option>
               <option value="(DOR) Dependent Support Enforcement">(DOR) Dependent Support Enforcement</option>
               <option value="(DOR) Paternity">(DOR) Paternity</option>
@@ -322,7 +322,7 @@ export default {
         partyType: "All Party Types",
         date: {
           from: "",
-          to: ""
+          to: "2030-12-31"
         },
         partyAddress: ""
       },
