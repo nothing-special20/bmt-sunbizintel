@@ -1,7 +1,7 @@
 const sqlstring = require("sqlstring");
 const { getDate } = require("../utilities/date");
 const { client } = require("../database/connection");
-const { getTableName: getTableNameForCSV } = require("../database/csvModels");
+// const { getTableName: getTableNameForCSV } = require("../database/csvModels");
 const { TABLE, MODEL, RECORD_MAP } = require("../database/tables");
 const { convertDataToCSV } = require("./csvExporter");
 
@@ -47,10 +47,10 @@ function buildFLClerkQuery(tableName, selValue, {county, caseType, caseNumber, c
       dbQuery += ` AND PARTY_TYPE REGEXP ${sqlstring.escape(partyType)}`;
   }
   if (filingDate.from !== "") {
-    dbQuery += " AND DATE(FILING_DATE) >= " + sqlstring.escape(filingDate.from);
+    dbQuery += " AND STR_TO_DATE(FILING_DATE, '%m/%d/%Y') >= " + sqlstring.escape(filingDate.from) + ", '%Y-%m-%d')";
   }
   if (filingDate.to !== "") {
-    dbQuery += " AND DATE(FILING_DATE) <= " + sqlstring.escape(filingDate.to);
+    dbQuery += " AND STR_TO_DATE(FILING_DATE, '%m/%d/%Y') <= STR_TO_DATE(" + sqlstring.escape(filingDate.to) + ", '%Y-%m-%d')";
   }
   if(partyAddress != "") {
       dbQuery += " AND PARTY_ADDRESS = " + sqlstring.escape(partyAddress);
@@ -66,6 +66,7 @@ function buildFLClerkQuery(tableName, selValue, {county, caseType, caseNumber, c
  * @param mapRecord - Record object map for PPP LOAN data
  * @returns List of Records
  */
+ /**
 function getRecords(caseNumberArray, mapRecord) {
   var query = `SELECT * from ${TABLE.HILLSBOROUGH_CLERK_CIVIL} where CASE_NUMBER in (${sqlstring.escape(caseNumberArray)})`;
   return new Promise((resolve, reject) => {
@@ -76,6 +77,7 @@ function getRecords(caseNumberArray, mapRecord) {
     });
   });
 }
+*/
 
 /**
  * Get records for file request query
@@ -167,6 +169,7 @@ function getHistory(userId) {
  * @param filters
  * @returns CSV data
  */
+/**
 function getRecordsAsCSV(filters) {
   return new Promise((resolve, reject) => {
     // Get loan IDs from search table
@@ -195,7 +198,7 @@ function getRecordsAsCSV(filters) {
     }).catch(err => { reject(err) });
   });
 }
-
+*/
 /**
  * Get preliminary information for file request
  */
@@ -234,15 +237,16 @@ async function getSampleFile(httpQuery, res) {
     const filters = JSON.parse(httpQuery.filters);
     // var query = `SELECT * from ${TABLE.HILLSBOROUGH_CLERK_CIVIL} LIMIT 20`;
     var query = buildFLClerkQuery(TABLE.HILLSBOROUGH_CLERK_CIVIL, '*', filters);
-    query += " LIMIT 10";
-    console.log("SQL query: ", query);
 
     var entries = await client.querySelect(query, RECORD_MAP.HILLSBOROUGH_CLERK_CIVIL);
 
     // Build CSV
+    console.log('test1')
+    console.log("SQL query: ", query);
     var csvData = convertDataToCSV(TABLE.HILLSBOROUGH_CLERK_CIVIL, entries);
-    console.log(csvData)
     // console.log(csvData)
+    console.log('test2')
+    // console.log(res)
 
     // Set response header to indicate CSV file
     res.setHeader("Content-Type", "text/csv");
@@ -299,21 +303,31 @@ exports.getUserFileRequestHistory = getUserFileRequestHistory;
  */
 async function getFileForDownload(httpQuery, res) {
   // Parse filters from query
-  let filters = JSON.parse(httpQuery.specifications);
+  const filters = JSON.parse(httpQuery['0']);
+
 
   // If 'TO' date is not set, set it to date of request
   if (filters.date.to === undefined || filters.date.to === "") {
     filters.date.to = httpQuery.requestDate;
   }
 
+  console.log("LOL1")
+  console.log(filters)
+
   try {
     // Build CSV
-    var { csv } = await getRecordsAsCSV(filters);
+    // var { csv } = await getRecordsAsCSV(filters);
+    var query = buildFLClerkQuery(TABLE.HILLSBOROUGH_CLERK_CIVIL, '*', filters);
+    console.log("LOL2")
+
+    var entries = await client.querySelect(query, RECORD_MAP.HILLSBOROUGH_CLERK_CIVIL);
+
+    var csvData = convertDataToCSV(TABLE.HILLSBOROUGH_CLERK_CIVIL, entries);
 
     // Set response header to indicate CSV file
     res.setHeader("Content-Type", "text/csv");
     res.setHeader("Content-Disposition", `attachment; filename=${TABLE.HILLSBOROUGH_CLERK_CIVIL}.csv`);
-    return res.status(200).send(csv);
+    return res.status(200).send(csvData);
 
   } catch (err) {
     console.log("Error creating CSV for history request: ", filters, err);

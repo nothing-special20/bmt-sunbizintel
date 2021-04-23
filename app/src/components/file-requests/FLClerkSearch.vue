@@ -20,9 +20,9 @@
               <option value="">All Case Types</option>
               <option value="(DOR) Administrative Support Order">(DOR) Administrative Support Order</option>
               <option value="(DOR) Dependent Support Enforcement">(DOR) Dependent Support Enforcement</option>
-              <option value="(DOR) New Obligee">(DOR) New Obligee</option>
               <option value="(DOR) Paternity">(DOR) Paternity</option>
               <option value="(DOR) UIFSA Interstate Support">(DOR) UIFSA Interstate Support</option>
+              <option value="(DOR) New Obligee">(DOR) New Obligee</option>
               <option value="(DV) Domestic Violence with Child(ren)">(DV) Domestic Violence with Child(ren)</option>
               <option value="(DV) Domestic Violence without Child(ren)">(DV) Domestic Violence without Child(ren)</option>
               <option value="(DV) Stalking">(DV) Stalking</option>
@@ -375,14 +375,12 @@ export default {
       this.searchError = "";
 
       ApiService.getSampleFile(JSON.stringify(this.filters)).then(response => {
-        const blob = new Blob([response.data], { type: response.headers["content-type"] });
+        const blob = new Blob([response.data], { type: response.headers["Content-Type"] });
         const link = document.createElement("a");
         link.href = URL.createObjectURL(blob);
         link.download = "HILLSBOROUGH_CLERK_CIVIL.csv";
         link.click();
         URL.revokeObjectURL(link.href);
-      }).catch(err => {
-        this.searchError = err.response.data.msg;
       });
     },
     onSearchClick () {

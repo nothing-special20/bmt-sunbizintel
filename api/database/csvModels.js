@@ -1,5 +1,5 @@
 const { TABLE } = require("./tables");
-const { csvModel: flClerkCivilCsvModel, csvRecordMap: pppLoansCsvMap } = require("../models/FlClerkCivil");
+const { csvModel: flClerkCivilCsvModel, csvRecordMap: flClerkCivilCsvMap } = require("../models/FlClerkCivil");
 const { clerkCivilCsvModel } = require("../models/ClerkCivil");
 
 // Map of models for CSV export
@@ -23,7 +23,7 @@ exports.getTableName = function (type) {
   if (tableName !== undefined) {
     return {
       tableName: tableName,
-      mapRecord: pppLoansCsvMap
+      mapRecord: flClerkCivilCsvMap
     };
   } else {
     return {
