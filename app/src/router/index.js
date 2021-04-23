@@ -8,7 +8,7 @@ import CheckoutOverview from "../views/checkout/Overview.vue";
 import CheckoutSummary from "../views/checkout/Summary.vue";
 import Subscription from "@/views/Subscription.vue";
 import FileRequests from "@/views/FileRequests.vue";
-import UserQuestions from "@/views/UserQuestions.vue"
+import UserQuestions from "@/views/UserQuestions.vue";
 import DaaSResearch from "@/views/DaaSResearch.vue";
 import FileRequestHistory from "@/views/FileRequestHistory";
 import FLClerkQuery from "@/views/FLClerkQuery.vue";

@@ -29,7 +29,7 @@
             <h3>Request File:</h3>
           </div>
           <div class="col-md-1">
-            <button class="btn btn-alternative" v-on:click="onSampleBtnClick">Sample</button>
+            <button class="btn btn-alternative" v-on:click="onFullBtnClick">Download File</button>
           </div>
           <div v-if="!initialDisplay" class="col-md-2">
             <button class="btn btn-main" v-on:click="navigateToHistoryView()">History</button>

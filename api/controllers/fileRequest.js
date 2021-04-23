@@ -1,7 +1,7 @@
 const sqlstring = require("sqlstring");
 const { getDate } = require("../utilities/date");
 const { client } = require("../database/connection");
-const { getTableName: getTableNameForCSV } = require("../database/csvModels");
+// const { getTableName: getTableNameForCSV } = require("../database/csvModels");
 const { TABLE, MODEL, RECORD_MAP } = require("../database/tables");
 const { convertDataToCSV } = require("./csvExporter");
 
@@ -19,41 +19,41 @@ var caseNumberMap = function createMap(row) {
 /**
  * Build query from filters
  */
-function buildFLClerkQuery(tableName, {county, case_type, case_number, case_title, party_name, attorney_name, party_type, date, party_address}) {
+function buildFLClerkQuery(tableName, selValue, {county, caseType, caseNumber, caseTitle, partyName, attorneyName, partyType, date, partyAddress}) {
   var filingDate = date;
 
   // Build query
-  var dbQuery = `SELECT DISTINCT CASE_NUMBER from ${tableName} WHERE 1=1 `;
+  var dbQuery = `SELECT ` + selValue + ` from ${tableName} WHERE 1=1 `;
 
   if(county != "All Counties") {
       dbQuery += " AND COUNTY = " + sqlstring.escape(county);
   }
-  if (case_type != "All Case Types") {1
-      dbQuery += " AND CASE_TYPE_DESCRIPTION = " + sqlstring.escape(case_type);
+  if (caseType !== "All Case Types") {
+      dbQuery += " AND CASE_TYPE_DESCRIPTION = " + sqlstring.escape(caseType);
   }
-  if (case_number != "") {
-      dbQuery += ` AND CASE_NUMBER REGEXP ${sqlstring.escape(case_number)}`;
+  if (caseNumber !== "") {
+      dbQuery += ` AND CASE_NUMBER REGEXP ${sqlstring.escape(caseNumber)}`;
   }
-  if (case_title != "") {
-      dbQuery += ` AND TITLE REGEXP ${sqlstring.escape(case_title)}`;
+  if (caseTitle !== "") {
+      dbQuery += ` AND TITLE REGEXP ${sqlstring.escape(caseTitle)}`;
   }
-  if (party_name != "") {
-      dbQuery += ` AND FULL_PARTY_NAME REGEXP ${sqlstring.escape(party_name)}`;
+  if (partyName !== "") {
+      dbQuery += ` AND FULL_PARTY_NAME REGEXP ${sqlstring.escape(partyName)}`;
   }
-  if (attorney_name != "") {
-      dbQuery += ` AND ATTORNEY REGEXP ${sqlstring.escape(attorney_name)}`;
+  if (attorneyName !== "") {
+      dbQuery += ` AND ATTORNEY REGEXP ${sqlstring.escape(attorneyName)}`;
   }
-  if (party_type != "All Party Types") {
-      dbQuery += ` AND PARTY_TYPE REGEXP ${sqlstring.escape(party_type)}`;
+  if (partyType !== "All Party Types") {
+      dbQuery += ` AND PARTY_TYPE REGEXP ${sqlstring.escape(partyType)}`;
   }
   if (filingDate.from !== "") {
-    dbQuery += " AND DATE(FILING_DATE) >= " + sqlstring.escape(filingDate.from);
+    dbQuery += " AND STR_TO_DATE(FILING_DATE, '%m/%d/%Y') >= STR_TO_DATE(" + sqlstring.escape(filingDate.from) + ", '%Y-%m-%d')";
   }
   if (filingDate.to !== "") {
-    dbQuery += " AND DATE(FILING_DATE) <= " + sqlstring.escape(filingDate.to);
+    dbQuery += " AND STR_TO_DATE(FILING_DATE, '%m/%d/%Y') <= STR_TO_DATE(" + sqlstring.escape(filingDate.to) + ", '%Y-%m-%d')";
   }
-  if(party_address != "") {
-      dbQuery += " AND PARTY_ADDRESS = " + sqlstring.escape(party_address);
+  if(partyAddress != "") {
+      dbQuery += " AND PARTY_ADDRESS = " + sqlstring.escape(partyAddress);
   }
 
   return dbQuery;
@@ -66,6 +66,7 @@ function buildFLClerkQuery(tableName, {county, case_type, case_number, case_titl
  * @param mapRecord - Record object map for PPP LOAN data
  * @returns List of Records
  */
+ /**
 function getRecords(caseNumberArray, mapRecord) {
   var query = `SELECT * from ${TABLE.HILLSBOROUGH_CLERK_CIVIL} where CASE_NUMBER in (${sqlstring.escape(caseNumberArray)})`;
   return new Promise((resolve, reject) => {
@@ -76,6 +77,7 @@ function getRecords(caseNumberArray, mapRecord) {
     });
   });
 }
+*/
 
 /**
  * Get records for file request query
@@ -87,10 +89,9 @@ function getSearchRecords(filters, mapRecord) {
   // Get Table Name and map
 
   // Build query
-  var query = buildFLClerkQuery(TABLE.HILLSBOROUGH_CLERK_CIVIL, filters);
-  console.log(client.querySelect(query, mapRecord))
+  var query = buildFLClerkQuery(TABLE.HILLSBOROUGH_CLERK_CIVIL, 'DISTINCT CASE_NUMBER', filters);
   return new Promise((resolve, reject) => {
-    console.log('test querySelect' + client.querySelect(query, mapRecord))
+    // console.log('test querySelect' + client.querySelect(query, mapRecord))
     client.querySelect(query, mapRecord).then(result => {
       resolve(result);
     }).catch(err => {
@@ -168,6 +169,7 @@ function getHistory(userId) {
  * @param filters
  * @returns CSV data
  */
+/**
 function getRecordsAsCSV(filters) {
   return new Promise((resolve, reject) => {
     // Get loan IDs from search table
@@ -196,7 +198,7 @@ function getRecordsAsCSV(filters) {
     }).catch(err => { reject(err) });
   });
 }
-
+*/
 /**
  * Get preliminary information for file request
  */
@@ -228,21 +230,39 @@ exports.getFileData = getFileData;
 /**
  * Get sample CSV
  */
-async function getSampleFile(res) {
+async function getSampleFile(httpQuery, res) {
 
   try {
-    var { mapRecord } = getTableNameForCSV(TABLE.HILLSBOROUGH_CLERK_CIVIL);
-    var query = `SELECT * from ${TABLE.HILLSBOROUGH_CLERK_CIVIL} LIMIT 10`;
+    // console.log(req)
+    const filters = JSON.parse(httpQuery.filters);
+    // var query = `SELECT * from ${TABLE.HILLSBOROUGH_CLERK_CIVIL} LIMIT 20`;
+    var query = buildFLClerkQuery(TABLE.HILLSBOROUGH_CLERK_CIVIL, '*', filters);
 
-    var entries = await client.querySelect(query, mapRecord);
+    var entries = await client.querySelect(query, RECORD_MAP.HILLSBOROUGH_CLERK_CIVIL);
 
     // Build CSV
-    var csv = convertDataToCSV(TABLE.HILLSBOROUGH_CLERK_CIVIL, entries);
+    console.log('test1')
+    console.log("SQL query: ", query);
+    var csvData = convertDataToCSV(TABLE.HILLSBOROUGH_CLERK_CIVIL, entries);
+    // console.log(csvData)
+    console.log('test2')
+    // console.log(res)
 
     // Set response header to indicate CSV file
     res.setHeader("Content-Type", "text/csv");
     res.setHeader("Content-Disposition", `attachment; filename=${TABLE.HILLSBOROUGH_CLERK_CIVIL}.csv`);
-    return res.status(200).send(csv);
+    return res.status(200).send(csvData);
+    // console.log(res)
+    // const fastcsv = require("fast-csv");
+    // const fs = require("fs");
+    // const ws = fs.createWriteStream(`HILLSBOROUGH_CLERK_CIVIL.csv`)
+
+    // console.log(entries)
+    // console.log('Preparing to export to csv...')
+    // fastcsv
+    //   .write(entries, { headers: true })
+    //   .pipe(ws)
+    //   .pipe(res);
 
   } catch (err) {
     console.log("Error creating sample CSV.", err);
@@ -283,21 +303,31 @@ exports.getUserFileRequestHistory = getUserFileRequestHistory;
  */
 async function getFileForDownload(httpQuery, res) {
   // Parse filters from query
-  let filters = JSON.parse(httpQuery.specifications);
+  const filters = JSON.parse(httpQuery['0']);
+
 
   // If 'TO' date is not set, set it to date of request
   if (filters.date.to === undefined || filters.date.to === "") {
     filters.date.to = httpQuery.requestDate;
   }
 
+  console.log("LOL1")
+  console.log(filters)
+
   try {
     // Build CSV
-    var { csv } = await getRecordsAsCSV(filters);
+    // var { csv } = await getRecordsAsCSV(filters);
+    var query = buildFLClerkQuery(TABLE.HILLSBOROUGH_CLERK_CIVIL, '*', filters);
+    console.log("LOL2")
+
+    var entries = await client.querySelect(query, RECORD_MAP.HILLSBOROUGH_CLERK_CIVIL);
+
+    var csvData = convertDataToCSV(TABLE.HILLSBOROUGH_CLERK_CIVIL, entries);
 
     // Set response header to indicate CSV file
     res.setHeader("Content-Type", "text/csv");
     res.setHeader("Content-Disposition", `attachment; filename=${TABLE.HILLSBOROUGH_CLERK_CIVIL}.csv`);
-    return res.status(200).send(csv);
+    return res.status(200).send(csvData);
 
   } catch (err) {
     console.log("Error creating CSV for history request: ", filters, err);

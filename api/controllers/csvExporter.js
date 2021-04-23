@@ -66,5 +66,13 @@ function convertDataToCSV(tableName, data) {
   const csvParser = new Parser({ csvFields });
   const csvData = csvParser.parse(data);
   return csvData;
+  // var csvDataEntries = "";
+  // for (var i = 0; i < csvData.length; i++) {
+  //   csvDataEntries += csvData[i] + "\r\n";
+  // }
+  // return csvDataEntries
+  // const csvDataEntries = Object.entries(csvData)
+
+  // return csvDataEntries
 }
 exports.convertDataToCSV = convertDataToCSV;

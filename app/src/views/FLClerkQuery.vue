@@ -8,7 +8,7 @@
         </ol>
       </div>
       <div class="container col-md-5" style="height:200%;">
-        <iframe height="515" src="https://www.loom.com/embed/5e49dcf176934ea59b08ffdb61a6c3c4"></iframe>
+        <iframe height="515" src=""></iframe>
       </div>
     </div>
     <div class="row">
@@ -18,10 +18,7 @@
             <h3>Request File:</h3>
           </div>
           <div class="col-md-1">
-            <button class="btn btn-alternative" v-on:click="onSampleBtnClick">Sample</button>
-          </div>
-          <div v-if="!initialDisplay" class="col-md-2">
-            <button class="btn btn-main" v-on:click="navigateToHistoryView()">History</button>
+            <!--<button class="btn btn-alternative" v-on:click="onSampleBtnClick">Download File</button>-->
           </div>
           <div class="col-md-12 error">
             {{ displayError }}
@@ -34,12 +31,6 @@
            <FLClerkSearch />
           </div>
           <!-- History Component Box -->
-          <div id="history-display" class="col-md-5 offset-md-1 request-component" v-if="initialDisplay" v-on:click="navigateToHistoryView()">
-            <History />
-          </div>
-          <div id="result-display" class="col-md-5 offset-md-1 request-component" v-if="!initialDisplay">
-            <Result />
-          </div>
         </div>
       </div>
     </div>
@@ -49,14 +40,12 @@
 <script>
 // @ is an alias to /src
 // import DatePicker from "vue2-datepicker";
-import History from "@/components/file-requests/History";
-import Result from "@/components/file-requests/Result";
 import FLClerkSearch from "@/components/file-requests/FLClerkSearch";
-import ApiService from "@/http/file-request";
+// import ApiService from "@/http/file-request";
 
 export default {
   name: "FileRequests",
-  components: { History, Result, FLClerkSearch },
+  components: { FLClerkSearch },
   data () {
     return {
       displayError: ""
@@ -70,21 +59,14 @@ export default {
   methods: {
     navigateToHistoryView () {
       this.$router.push({ name: "FileRequestHistory" });
-    },
-    onSampleBtnClick () {
-      this.displayError = "";
-
-      ApiService.getSampleFile().then(response => {
-        const blob = new Blob([response.data], { type: response.headers["content-type"] });
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = "sample.csv";
-        link.click();
-        URL.revokeObjectURL(link.href);
-      }).catch(err => {
-        this.displayError = err.response.data.msg;
-      });
     }
+    // onSampleBtnClick () {
+    //   this.displayError = "";
+    //   this.$store.dispatch("FileRequest/SAMPLE_FILE)
+    //   ApiService.getSampleFile().then().catch(err => {
+    //     this.displayError = err.response.data.msg;
+    //   });
+    // }
   }
 };
 </script>
