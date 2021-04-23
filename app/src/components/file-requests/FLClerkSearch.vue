@@ -296,8 +296,7 @@
         <label for="party-addr-search-item">Party Address:</label>
         <input id="party-addr-search-item" class="form-control" type="text" v-model="filters.partyAddress" />
       </div>
-      <button class="btn btn-alternative" v-on:click="onSampleBtnClick">Download Sample</button>
-      <button class="btn btn-primary" v-on:click="onSearchClick">Submit</button>
+      <button class="btn btn-primary" v-on:click="onSearchClick">Download Data</button>
     </div>
   </div>
 </template>
