@@ -29,6 +29,10 @@ function buildFLClerkQuery(tableName, selValue, {county, caseType, caseNumber, c
       dbQuery += " AND COUNTY = " + sqlstring.escape(county);
   }
   if (caseType !== "All Case Types") {
+      caseType = caseType.replace(/\\/g, "\\\\")
+      caseType = caseType.replace(/\$/g, "\\$")
+      caseType = caseType.replace(/'/g, "\\'")
+      caseType = caseType.replace(/"/g, "\\\"");
       dbQuery += `AND CASE_TYPE_DESCRIPTION REGEXP + ${sqlstring.escape(caseType)}`;
   }
   if (caseNumber !== "") {
