@@ -29,7 +29,7 @@ function buildFLClerkQuery(tableName, selValue, {county, caseType, caseNumber, c
       dbQuery += " AND COUNTY = " + sqlstring.escape(county);
   }
   if (caseType !== "All Case Types") {
-      dbQuery += " AND CASE_TYPE_DESCRIPTION = " + sqlstring.escape(caseType);
+      dbQuery += " AND REGEXP " + sqlstring.escape(caseType);
   }
   if (caseNumber !== "") {
       dbQuery += ` AND CASE_NUMBER REGEXP ${sqlstring.escape(caseNumber)}`;
@@ -53,7 +53,7 @@ function buildFLClerkQuery(tableName, selValue, {county, caseType, caseNumber, c
     dbQuery += " AND STR_TO_DATE(FILING_DATE, '%m/%d/%Y') <= STR_TO_DATE(" + sqlstring.escape(filingDate.to) + ", '%Y-%m-%d')";
   }
   if(partyAddress != "") {
-      dbQuery += " AND PARTY_ADDRESS = " + sqlstring.escape(partyAddress);
+      dbQuery += " AND PARTY_ADDRESS REGEXP " + sqlstring.escape(partyAddress);
   }
 
   return dbQuery;
