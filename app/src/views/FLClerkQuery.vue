@@ -3,9 +3,7 @@
     <div class="row md-8">
       <div id="instruction-text" class="container col-md-4" style="height:200%;">
         <h3>How to Get Your Data:</h3>
-        <ul>
-          <li><strong>Note</strong>: all filters are optional (though recommended!)</li>
-        </ul>
+        <span><strong>Note</strong>: all filters are optional (though recommended!)</span>
         <ol>
           <li>Select a county, case type, and / or party type using the dropdown menus.</li>
           <li>Select one of the other filters by including a term or phrase that you would like to search for. The query will return all results where that exact phrase is contained within that field.
