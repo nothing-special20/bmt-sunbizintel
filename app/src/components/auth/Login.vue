@@ -35,7 +35,7 @@ export default {
       const credentials = { email: this.email, password: this.password };
       this.$store.dispatch("User/LOGIN", credentials).then((response) => {
         this.msg = response.msg;
-        this.$router.push("/file/requests");
+        this.$router.push("/flclerkquery");
       }).catch((error) => {
         this.msg = error.response.data.msg;
       });
