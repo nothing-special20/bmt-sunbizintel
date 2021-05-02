@@ -12,6 +12,7 @@ import UserQuestions from "@/views/UserQuestions.vue";
 import DaaSResearch from "@/views/DaaSResearch.vue";
 import FileRequestHistory from "@/views/FileRequestHistory";
 import FLClerkQuery from "@/views/FLClerkQuery.vue";
+import FLClerkLandPg from "@/views/FLClerkLandPg.vue";
 import Test from "../views/Test.vue";
 import LoginView from "@/views/auth/LoginView.vue";
 import Register from "@/views/auth/Register.vue";
@@ -130,6 +131,11 @@ const routes = [
     name: "FLClerkQuery",
     component: FLClerkQuery,
     beforeEnter: isAuthenticated
+  }
+  {
+    path: "/flclerklandingpage",
+    name: "FLClerkLandPg",
+    component: FLClerkLandPg
   }
 ];
 
