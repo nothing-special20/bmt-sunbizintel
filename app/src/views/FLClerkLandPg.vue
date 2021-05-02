@@ -514,11 +514,11 @@
 <script>
 // @ is an alias to /src
 import ApiService from "@/http/api";
-import * as bulkitApp from "@/../../bulkit-precompiled/assets/js/app.js"
-import * as bulkitFunctions from "@/../../bulkit-precompiled/assets/js/functions.js"
-import * as bulkitAuth from "@/../../bulkit-precompiled/assets/js/auth.js"
-import * as bulkitContact from "@/../../bulkit-precompiled/assets/js/contact.js"
-import * as bulkitMain from "@/../../bulkit-precompiled/assets/js/main.js"
+import * as bulkitApp from "@/bulkit/js/app.js"
+import * as bulkitFunctions from "@/bulkit/js/functions.js"
+import * as bulkitAuth from "@/bulkit/js/auth.js"
+import * as bulkitContact from "@/bulkit/js/contact.js"
+import * as bulkitMain from "@/bulkit/js/main.js"
 
 export default {
   name: "UserQuestions",
