@@ -131,7 +131,7 @@ const routes = [
     name: "FLClerkQuery",
     component: FLClerkQuery,
     beforeEnter: isAuthenticated
-  }
+  },
   {
     path: "/flclerklandingpage",
     name: "FLClerkLandPg",
