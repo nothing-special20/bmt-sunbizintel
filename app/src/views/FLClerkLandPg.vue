@@ -514,11 +514,6 @@
 <script>
 // @ is an alias to /src
 import ApiService from "@/http/api";
-import * as bulkitApp from "@/bulkit/js/app";
-import * as bulkitFunctions from "@/bulkit/js/functions";
-import * as bulkitAuth from "@/bulkit/js/auth";
-import * as bulkitContact from "@/bulkit/js/contact";
-import * as bulkitMain from "@/bulkit/js/main";
 
 export default {
   name: "UserQuestions",
@@ -547,11 +542,6 @@ export default {
       }).catch(err => {
         this.msg = err.response.data.msg;
       });
-      bulkitApp();
-      bulkitFunctions();
-      bulkitAuth();
-      bulkitContact();
-      bulkitMain();
     }
   }
 };
