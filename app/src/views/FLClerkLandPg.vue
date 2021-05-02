@@ -547,7 +547,11 @@ export default {
       }).catch(err => {
         this.msg = err.response.data.msg;
       });
-    bulkitApp ();
+      bulkitApp ();
+      bulkitFunctions ();
+      bulkitAuth ();
+      bulkitContact ();
+      bulkitMain ();
     }
   }
 };
