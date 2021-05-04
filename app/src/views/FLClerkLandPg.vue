@@ -545,11 +545,6 @@ export default {
     }
   }
 };
-<script src="assets/js/app.js"></script>
-<script src="assets/js/functions.js"></script>
-<script src="assets/js/auth.js"></script>
-<script src="assets/js/contact.js"></script>
-<script src="assets/js/main.js"></script>
 </script>
 
 <style lang="scss">
